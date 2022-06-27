@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { Group } from "@/definitions/budgetDefs";
+import { ref } from "vue";
 import CategoryTable from "./CategoryTable.vue";
-defineProps<{
+const { group } = defineProps<{
   group: Group;
 }>();
 

@@ -1,8 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const emit = defineEmits(["addCategory"]);
+</script>
 
 <template>
   <div class="table-row">
     <div class="labels">
+      <div class="plus-icon" @click="emit('addCategory')">
+        <font-awesome-icon icon="fa-solid fa-circle-plus" />
+      </div>
       <p>Category</p>
     </div>
     <div class="labels">
@@ -18,6 +23,11 @@
 </template>
 
 <style>
+.plus-icon {
+  padding-top: 15px;
+  padding-right: 5px;
+  color: rgb(137, 152, 158);
+}
 .table-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;

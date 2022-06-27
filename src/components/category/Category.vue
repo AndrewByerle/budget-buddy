@@ -1,25 +1,59 @@
 <!-- A single row in the category table -->
 <script setup lang="ts">
 import type { Category } from "@/definitions/budgetDefs";
+import { ref } from "vue";
 
 defineProps<{
   categoryInfo: Category;
 }>();
+
+const isEditActive = ref(true);
+// Didn't componentize each item becuase @keyup.enter event isn't passed to child
 </script>
 
 <template>
   <div class="table-row">
     <div class="item">
-      <p>{{ categoryInfo.name }}</p>
+      <input
+        v-if="isEditActive"
+        v-model="categoryInfo.name"
+        @keyup.enter="isEditActive = false"
+      />
+      <div v-else>
+        <p @click="isEditActive = true">
+          {{ categoryInfo.name }}
+        </p>
+      </div>
     </div>
     <div class="item">
-      <p>{{ categoryInfo.assigned }}</p>
+      <input
+        v-if="isEditActive"
+        v-model="categoryInfo.assigned"
+        @keyup.enter="isEditActive = false"
+      />
+      <div v-else>
+        <p @click="isEditActive = true">${{ categoryInfo.assigned }}</p>
+      </div>
     </div>
     <div class="item">
-      <p>{{ categoryInfo.spent }}</p>
+      <input
+        v-if="isEditActive"
+        v-model="categoryInfo.spent"
+        @keyup.enter="isEditActive = false"
+      />
+      <div v-else>
+        <p @click="isEditActive = true">${{ categoryInfo.spent }}</p>
+      </div>
     </div>
     <div class="item">
-      <p>{{ categoryInfo.available }}</p>
+      <input
+        v-if="isEditActive"
+        v-model="categoryInfo.available"
+        @keyup.enter="isEditActive = false"
+      />
+      <div v-else>
+        <p @click="isEditActive = true">${{ categoryInfo.available }}</p>
+      </div>
     </div>
   </div>
 </template>
