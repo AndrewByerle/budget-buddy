@@ -3,7 +3,7 @@ import LabelRow from "./category/LabelRow.vue";
 import Category from "./category/Category.vue";
 import { useCategories } from "@/composables/overview";
 
-const categories = useCategories();
+const { categories } = useCategories();
 
 const addCategory = () => {
   categories.value.push({

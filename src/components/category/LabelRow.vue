@@ -14,7 +14,7 @@ const emit = defineEmits(["addCategory"]);
       <p>Assigned</p>
     </div>
     <div class="labels">
-      <p>Spent</p>
+      <p>Expense</p>
     </div>
     <div class="labels">
       <p>Available</p>
@@ -42,7 +42,6 @@ const emit = defineEmits(["addCategory"]);
   cursor: pointer;
   transition: all 0.3s ease;
   border-color: black;
-  /* border: 1px solid black; */
 }
 .labels:first-child {
   border-top-left-radius: 30px;

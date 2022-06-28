@@ -5,7 +5,7 @@ import LinkItem from "./LinkItem.vue";
 <template>
   <div class="sidebar">
     <h1>Budget Buddy</h1>
-    <LinkItem to="/" title="Home" icon="fa-solid fa-house" />
+    <LinkItem to="/" title="Overview" icon="fa-solid fa-house" />
     <LinkItem to="/transactions" title="Transactions" icon="fa-solid fa-list" />
   </div>
 </template>

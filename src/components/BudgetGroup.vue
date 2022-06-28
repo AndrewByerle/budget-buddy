@@ -70,6 +70,5 @@ const vFocus = {
   margin-left: 3%;
   margin-right: 3%;
   box-shadow: 2px 2px 5px rgb(188, 231, 218);
-  transition: max-height 0.25s ease-out;
 }
 </style>

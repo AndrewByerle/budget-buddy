@@ -1,27 +1,35 @@
-import { ref } from "vue";
+import useLocalStorage from "@/components/LocalStorage";
+import { computed, ref } from "vue";
 
+const groups = ref([
+  {
+    name: "Car",
+    edit: true,
+    collapsed: false,
+  },
+]);
 const useGroups = () => {
-  const groups = ref([
-    {
-      name: "Housing",
-      edit: false,
-      collapsed: true,
-    },
-  ]);
-  const isEditActive = ref(false);
-  return { groups, isEditActive };
+  return { groups };
 };
 
 const useCategories = () => {
   const categories = ref([
     {
-      name: "Gas",
+      name: "Ex. Gas",
       assigned: 0,
       spent: 0,
       available: 0,
     },
   ]);
-  return categories;
+  // todo func createCategory
+  return { categories };
 };
 
-export { useGroups, useCategories };
+const monthlyAllowance = ref(0);
+// const monthlyAllowance = useLocalStorage(0);
+
+const useBudget = () => {
+  return { monthlyAllowance };
+};
+
+export { useGroups, useCategories, useBudget };

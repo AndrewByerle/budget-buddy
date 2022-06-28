@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import BudgetGroup from "../components/BudgetGroup.vue";
-import { useGroups } from "../composables/overview";
+import { useBudget, useGroups } from "../composables/overview";
+import Header1 from "../components/Header.vue";
 
-const { groups, isEditActive } = useGroups();
+const { groups } = useGroups();
 
 const addGroup = () =>
   groups.value.push({
@@ -14,7 +15,7 @@ const addGroup = () =>
 
 <template>
   <div>
-    <h1>Month</h1>
+    <Header1 />
     <button class="add-group-button" @click="addGroup">Add Group</button>
     <button @click="">Edit</button>
     <button>redo</button>
@@ -27,6 +28,13 @@ const addGroup = () =>
 </template>
 
 <style>
+.monthly-allowance {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
 .add-group-button {
   background: inherit;
   border-radius: 5px;

@@ -1,11 +1,23 @@
 <!-- A single row in the category table -->
 <script setup lang="ts">
+import { useBudget } from "@/composables/overview";
 import type { Category } from "@/definitions/budgetDefs";
 import { ref } from "vue";
 
-defineProps<{
+const { categoryInfo } = defineProps<{
   categoryInfo: Category;
 }>();
+
+const { monthlyAllowance } = useBudget();
+
+const spentHistory = { old: 0, recent: 0 };
+
+const handleSpentInput = (e: any) => {
+  isEditActive.value = false;
+  spentHistory.old = spentHistory.recent;
+  spentHistory.recent = e.target.valueAsNumber;
+  monthlyAllowance.value += spentHistory.old - spentHistory.recent;
+};
 
 const isEditActive = ref(true);
 // Didn't componentize each item becuase @keyup.enter event isn't passed to child
@@ -38,8 +50,9 @@ const isEditActive = ref(true);
     <div class="item">
       <input
         v-if="isEditActive"
+        type="number"
         v-model="categoryInfo.spent"
-        @keyup.enter="isEditActive = false"
+        @keyup.enter="handleSpentInput"
       />
       <div v-else>
         <p @click="isEditActive = true">${{ categoryInfo.spent }}</p>
