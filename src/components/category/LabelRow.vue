@@ -10,15 +10,15 @@ const emit = defineEmits(["addCategory"]);
       </div>
       <p>Category</p>
     </div>
-    <div class="labels">
+    <!-- <div class="labels">
       <p>Assigned</p>
-    </div>
+    </div> -->
     <div class="labels">
       <p>Expense</p>
     </div>
-    <div class="labels">
+    <!-- <div class="labels">
       <p>Available</p>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -30,7 +30,8 @@ const emit = defineEmits(["addCategory"]);
 }
 .table-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  /* 1fr 1fr; */
 }
 .labels {
   display: flex;

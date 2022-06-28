@@ -37,7 +37,7 @@ const isEditActive = ref(true);
         </p>
       </div>
     </div>
-    <div class="item">
+    <!-- <div class="item">
       <input
         v-if="isEditActive"
         v-model="categoryInfo.assigned"
@@ -46,7 +46,7 @@ const isEditActive = ref(true);
       <div v-else>
         <p @click="isEditActive = true">${{ categoryInfo.assigned }}</p>
       </div>
-    </div>
+    </div> -->
     <div class="item">
       <input
         v-if="isEditActive"
@@ -58,7 +58,7 @@ const isEditActive = ref(true);
         <p @click="isEditActive = true">${{ categoryInfo.spent }}</p>
       </div>
     </div>
-    <div class="item">
+    <!-- <div class="item">
       <input
         v-if="isEditActive"
         v-model="categoryInfo.available"
@@ -67,14 +67,15 @@ const isEditActive = ref(true);
       <div v-else>
         <p @click="isEditActive = true">${{ categoryInfo.available }}</p>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <style>
 .table-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  /* 1fr 1fr; */
 }
 .item {
   background-color: rgb(255, 255, 255);
