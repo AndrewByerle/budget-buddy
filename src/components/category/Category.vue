@@ -19,7 +19,7 @@ const handleSpentInput = (e: any) => {
   monthlyAllowance.value += spentHistory.old - spentHistory.recent;
 };
 
-const isEditActive = ref(true);
+const isEditActive = ref(false);
 // Didn't componentize each item becuase @keyup.enter event isn't passed to child
 </script>
 

@@ -2,6 +2,7 @@ export type Group = {
   name: string;
   edit: boolean;
   collapsed: boolean;
+  id: string;
 };
 
 export type Category = {
@@ -9,4 +10,5 @@ export type Category = {
   assigned: number;
   spent: number;
   available: number;
+  groupId: string;
 };

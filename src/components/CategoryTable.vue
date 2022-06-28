@@ -2,8 +2,13 @@
 import LabelRow from "./category/LabelRow.vue";
 import Category from "./category/Category.vue";
 import { useCategories } from "@/composables/overview";
+import { createId } from "@/utils/uid";
+import { watch } from "vue";
 
-const { categories } = useCategories();
+const { groupId } = defineProps<{
+  groupId: string;
+}>();
+let { categories } = useCategories(groupId);
 
 const addCategory = () => {
   categories.value.push({
@@ -11,7 +16,9 @@ const addCategory = () => {
     assigned: 0,
     spent: 0,
     available: 0,
+    groupId: groupId,
   });
+  console.log(categories.value);
 };
 </script>
 
@@ -19,7 +26,9 @@ const addCategory = () => {
   <div class="wrapper">
     <LabelRow @add-category="addCategory" />
     <template v-for="category in categories">
-      <Category :category-info="category" />
+      <div v-if="category.groupId === groupId">
+        <Category :category-info="category" />
+      </div>
     </template>
   </div>
 </template>

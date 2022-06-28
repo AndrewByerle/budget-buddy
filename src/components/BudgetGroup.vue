@@ -35,7 +35,7 @@ const vFocus = {
       </button>
     </div>
     <div v-if="!group.collapsed">
-      <CategoryTable />
+      <CategoryTable :group-id="group.id" />
     </div>
   </div>
 </template>

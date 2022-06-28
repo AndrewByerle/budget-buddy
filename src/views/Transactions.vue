@@ -5,7 +5,7 @@ import Header from "../components/Header.vue";
 
 const selected = ref("");
 
-const { categories } = useCategories();
+const { categories } = useCategories("");
 
 const addTransaction = () => {
   console.log(selected.value);

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { v4 as uuidv4 } from "uuid";
 import BudgetGroup from "../components/BudgetGroup.vue";
 import { useBudget, useGroups } from "../composables/overview";
 import Header1 from "../components/Header.vue";
+import { createId } from "@/utils/uid";
 
 const { groups } = useGroups();
 
@@ -10,6 +12,7 @@ const addGroup = () =>
     name: "new group",
     edit: true,
     collapsed: false,
+    id: createId(),
   });
 </script>
 
