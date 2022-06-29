@@ -8,15 +8,7 @@ const { categoryInfo } = defineProps<{
   categoryInfo: Category;
 }>();
 
-const { handleExpenseInput } = useCategories();
-
-const handleExpense = (e: any) => {
-  isEditActive.value = false;
-  handleExpenseInput(e);
-};
-
 const isEditActive = ref(false);
-// Didn't componentize each item becuase @keyup.enter event isn't passed to child
 </script>
 
 <template>
@@ -44,15 +36,7 @@ const isEditActive = ref(false);
       </div>
     </div> -->
     <div class="item">
-      <input
-        v-if="isEditActive"
-        type="number"
-        v-model="categoryInfo.spent"
-        @keyup.enter="handleExpense"
-      />
-      <div v-else>
-        <p @click="isEditActive = true">${{ categoryInfo.spent }}</p>
-      </div>
+      <p>{{ categoryInfo.expense }}</p>
     </div>
     <!-- <div class="item">
       <input

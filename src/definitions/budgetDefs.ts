@@ -7,8 +7,13 @@ export type Group = {
 
 export type Category = {
   name: string;
-  assigned: number;
-  spent: number;
-  available: number;
+  expense: number;
   groupId: string;
+};
+
+export type Transaction = {
+  description: string;
+  category: string;
+  date: string;
+  amount: number;
 };

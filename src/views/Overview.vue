@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from "uuid";
 import BudgetGroup from "../components/BudgetGroup.vue";
-import { useBudget, useGroups } from "../composables/overview";
+import { useGroups } from "../composables/overview";
 import Header1 from "../components/Header.vue";
 import { createId } from "@/utils/uid";
 
 const { groups } = useGroups();
-
 const addGroup = () =>
   groups.value.push({
     name: "new group",
@@ -23,7 +22,6 @@ const addGroup = () =>
     <button @click="">Edit</button>
     <button>redo</button>
     <button>undo</button>
-    <button>clear</button>
     <template v-for="group in groups">
       <BudgetGroup :group="group" />
     </template>

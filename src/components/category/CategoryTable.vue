@@ -11,9 +11,7 @@ let { categories } = useCategories();
 const addCategory = () => {
   categories.value.push({
     name: "Category",
-    assigned: 0,
-    spent: 0,
-    available: 0,
+    expense: 0,
     groupId: groupId,
   });
   console.log(categories.value);
