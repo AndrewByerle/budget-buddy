@@ -1,6 +1,6 @@
 <!-- A single row in the category table -->
 <script setup lang="ts">
-import { useBudget } from "@/composables/overview";
+import { useBudget, useCategories } from "@/composables/overview";
 import type { Category } from "@/definitions/budgetDefs";
 import { ref } from "vue";
 
@@ -8,15 +8,11 @@ const { categoryInfo } = defineProps<{
   categoryInfo: Category;
 }>();
 
-const { monthlyAllowance } = useBudget();
+const { handleExpenseInput } = useCategories();
 
-const spentHistory = { old: 0, recent: 0 };
-
-const handleSpentInput = (e: any) => {
+const handleExpense = (e: any) => {
   isEditActive.value = false;
-  spentHistory.old = spentHistory.recent;
-  spentHistory.recent = e.target.valueAsNumber;
-  monthlyAllowance.value += spentHistory.old - spentHistory.recent;
+  handleExpenseInput(e);
 };
 
 const isEditActive = ref(false);
@@ -52,7 +48,7 @@ const isEditActive = ref(false);
         v-if="isEditActive"
         type="number"
         v-model="categoryInfo.spent"
-        @keyup.enter="handleSpentInput"
+        @keyup.enter="handleExpense"
       />
       <div v-else>
         <p @click="isEditActive = true">${{ categoryInfo.spent }}</p>

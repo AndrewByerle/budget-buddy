@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import LabelRow from "./category/LabelRow.vue";
-import Category from "./category/Category.vue";
+import LabelRow from "../category/LabelRow.vue";
+import Category from "../category/Category.vue";
 import { useCategories } from "@/composables/overview";
-import { createId } from "@/utils/uid";
-import { watch } from "vue";
 
 const { groupId } = defineProps<{
   groupId: string;
 }>();
-let { categories } = useCategories(groupId);
+let { categories } = useCategories();
 
 const addCategory = () => {
   categories.value.push({
