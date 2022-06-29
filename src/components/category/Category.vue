@@ -25,29 +25,9 @@ const isEditActive = ref(false);
         </p>
       </div>
     </div>
-    <!-- <div class="item">
-      <input
-        v-if="isEditActive"
-        v-model="categoryInfo.assigned"
-        @keyup.enter="isEditActive = false"
-      />
-      <div v-else>
-        <p @click="isEditActive = true">${{ categoryInfo.assigned }}</p>
-      </div>
-    </div> -->
     <div class="item">
-      <p>{{ categoryInfo.expense }}</p>
+      <p>${{ categoryInfo.expense }}</p>
     </div>
-    <!-- <div class="item">
-      <input
-        v-if="isEditActive"
-        v-model="categoryInfo.available"
-        @keyup.enter="isEditActive = false"
-      />
-      <div v-else>
-        <p @click="isEditActive = true">${{ categoryInfo.available }}</p>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -68,7 +48,5 @@ const isEditActive = ref(false);
   transition: all 0.3s ease;
   border-color: black;
   box-shadow: 2px 2px 2px rgb(200, 207, 205);
-
-  /* border: 1px solid black; */
 }
 </style>

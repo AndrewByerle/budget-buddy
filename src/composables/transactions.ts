@@ -1,5 +1,8 @@
 import type { Category, Transaction } from "@/definitions/budgetDefs";
 import { ref } from "vue";
+import { useBudget } from "./overview";
+
+const { monthlyAllowance } = useBudget();
 
 const transactions = ref<Transaction[]>([]);
 
@@ -44,8 +47,19 @@ const useTransactions = () => {
   const processTransaction = (transaction: Transaction, category: Category) => {
     transactions.value.unshift(transaction);
     category.expense += transaction.amount;
+    monthlyAllowance.value -= transaction.amount;
+
+    table.value.totalRecordCount = transactions.value.length;
   };
 
-  return { processTransaction, transactions, table };
+  const tableLoadingFinish = (elements: any) => {
+    table.value.isLoading = false;
+  };
+  return {
+    processTransaction,
+    transactions,
+    table,
+    tableLoadingFinish,
+  };
 };
 export default useTransactions;

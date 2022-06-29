@@ -3,7 +3,7 @@ import { useCategories } from "@/composables/overview";
 import useTransactions from "@/composables/transactions";
 import { ref } from "vue";
 import Header from "../components/Header.vue";
-import TableLite from "vue3-table-lite/ts";
+import TransactionTable from "../components/transactions/TransactionTable.vue";
 
 const { categories } = useCategories();
 const { processTransaction, table } = useTransactions();
@@ -66,14 +66,7 @@ const formatDate = (date: Date) => {
     </div>
   </div>
 
-  <table-lite
-    :is-loading="table.isLoading"
-    :columns="table.columns"
-    :rows="table.rows"
-    :total="table.totalRecordCount"
-    :sortable="table.sortable"
-    @is-finished="table.isLoading = false"
-  />
+  <TransactionTable />
 </template>
 
 <style>
