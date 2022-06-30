@@ -14,7 +14,7 @@ const { table, tableLoadingFinish } = useTransactions();
       :rows="table.rows"
       :total="table.totalRecordCount"
       :sortable="table.sortable"
-      @is-finished="tableLoadingFinish"
+      @is-finished="table.isLoading = false"
     />
   </div>
 </template>

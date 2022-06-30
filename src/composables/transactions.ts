@@ -43,23 +43,21 @@ const table = ref({
     sort: "asc",
   },
 });
+
 const useTransactions = () => {
   const processTransaction = (transaction: Transaction, category: Category) => {
     transactions.value.unshift(transaction);
     category.expense += transaction.amount;
+    // todo replace with updateMonthlyAllowance
     monthlyAllowance.value -= transaction.amount;
 
     table.value.totalRecordCount = transactions.value.length;
   };
 
-  const tableLoadingFinish = (elements: any) => {
-    table.value.isLoading = false;
-  };
   return {
     processTransaction,
     transactions,
     table,
-    tableLoadingFinish,
   };
 };
 export default useTransactions;
