@@ -5,7 +5,7 @@ import { useBudget, useCategories } from "./overview";
 
 const { monthlyAllowance } = useBudget();
 
-const { clearCategories } = useCategories();
+const { clearCategories, getCategoryById } = useCategories();
 
 // const transactions = ref<Transaction[]>([]);
 const transactions = useLocalStorage<Transaction[]>("trasaction_array", []);
@@ -51,7 +51,9 @@ const table = ref({
 const useTransactions = () => {
   const processTransaction = (transaction: Transaction) => {
     transactions.value.unshift(transaction);
-    transaction.category.expense += transaction.amount;
+    // todo
+    // transaction.category.expense += transaction.amount;
+    getCategoryById(transaction.categoryId).expense += transaction.amount;
     monthlyAllowance.value -= transaction.amount;
     // refresh table length
     table.value.totalRecordCount = transactions.value.length;

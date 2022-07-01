@@ -9,14 +9,13 @@ export type Category = {
   name: string;
   expense: number;
   groupId: string;
+  id: string;
 };
 
 export type Transaction = {
   description: string;
-  category: Category;
   categoryName: string;
   date: string;
   amount: number;
-
-  // add id
+  categoryId: string;
 };

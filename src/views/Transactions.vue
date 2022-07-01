@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import { useCategories } from "@/composables/overview";
 import useTransactions from "@/composables/transactions";
+import type { Category } from "@/definitions/budgetDefs";
 import { ref } from "vue";
 import Header from "../components/Header.vue";
 import TransactionTable from "../components/transactions/TransactionTable.vue";
-
 const { categories } = useCategories();
 const { processTransaction, clearTransactions } = useTransactions();
-
 const categorySelected = ref();
 const amount = ref();
 const description = ref("");
 const date = ref();
-
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US");
 };
@@ -28,7 +26,7 @@ const formatDate = (date: Date) => {
         amount: amount,
         description: description,
         date: formatDate(date),
-        category: categorySelected,
+        categoryId: categorySelected.id,
       })
     "
   >
@@ -45,7 +43,7 @@ const formatDate = (date: Date) => {
       <div class="row">
         <p>Category</p>
         <select v-model="categorySelected">
-          <option disabled value="">Please select one</option>
+          <option :value="undefined">Please select one</option>
           <option v-for="category in categories" :value="category">
             {{ category.name }}
           </option>
@@ -90,7 +88,6 @@ const formatDate = (date: Date) => {
   justify-content: center;
   flex-direction: column;
 }
-
 .row {
   display: flex;
   flex-direction: row;

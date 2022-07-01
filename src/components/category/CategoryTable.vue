@@ -2,6 +2,7 @@
 import LabelRow from "../category/LabelRow.vue";
 import Category from "../category/Category.vue";
 import { useCategories } from "@/composables/overview";
+import { createId } from "@/utils/uid";
 
 const { groupId } = defineProps<{
   groupId: string;
@@ -13,6 +14,7 @@ const addCategory = () => {
     name: "Category",
     expense: 0,
     groupId: groupId,
+    id: createId(),
   });
   console.log(categories.value);
 };
