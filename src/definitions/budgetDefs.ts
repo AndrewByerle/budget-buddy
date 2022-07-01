@@ -13,7 +13,10 @@ export type Category = {
 
 export type Transaction = {
   description: string;
-  category: string;
+  category: Category;
+  categoryName: string;
   date: string;
   amount: number;
+
+  // add id
 };

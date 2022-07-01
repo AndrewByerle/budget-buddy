@@ -6,7 +6,7 @@ import Header from "../components/Header.vue";
 import TransactionTable from "../components/transactions/TransactionTable.vue";
 
 const { categories } = useCategories();
-const { processTransaction, table } = useTransactions();
+const { processTransaction, clearTransactions } = useTransactions();
 
 const categorySelected = ref();
 const amount = ref();
@@ -23,24 +23,24 @@ const formatDate = (date: Date) => {
   <button
     class="add-transaction-button"
     @click="
-      processTransaction(
-        {
-          category: categorySelected.name,
-          amount: amount,
-          description: description,
-          date: formatDate(date),
-        },
-        categorySelected
-      )
+      processTransaction({
+        categoryName: categorySelected.name,
+        amount: amount,
+        description: description,
+        date: formatDate(date),
+        category: categorySelected,
+      })
     "
   >
     Add Transaction
   </button>
+  <button @click="clearTransactions">clear</button>
+
   <div class="transaction">
     <div class="card">
       <div class="row">
         <p>Description</p>
-        <input type="string" v-model="description" placeholder="description" />
+        <input type="string" v-model="description" placeholder="Description" />
       </div>
       <div class="row">
         <p>Category</p>

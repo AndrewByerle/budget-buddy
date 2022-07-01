@@ -1,10 +1,14 @@
+import useLocalStorage from "@/components/LocalStorage";
 import type { Category, Transaction } from "@/definitions/budgetDefs";
 import { ref } from "vue";
-import { useBudget } from "./overview";
+import { useBudget, useCategories } from "./overview";
 
 const { monthlyAllowance } = useBudget();
 
-const transactions = ref<Transaction[]>([]);
+const { clearCategories } = useCategories();
+
+// const transactions = ref<Transaction[]>([]);
+const transactions = useLocalStorage<Transaction[]>("trasaction_array", []);
 
 const table = ref({
   isLoading: false,
@@ -25,7 +29,7 @@ const table = ref({
     },
     {
       label: "Category",
-      field: "category",
+      field: "categoryName",
       width: "6%",
       sortable: true,
     },
@@ -45,19 +49,29 @@ const table = ref({
 });
 
 const useTransactions = () => {
-  const processTransaction = (transaction: Transaction, category: Category) => {
+  const processTransaction = (transaction: Transaction) => {
     transactions.value.unshift(transaction);
-    category.expense += transaction.amount;
-    // todo replace with updateMonthlyAllowance
+    transaction.category.expense += transaction.amount;
     monthlyAllowance.value -= transaction.amount;
-
+    // refresh table length
     table.value.totalRecordCount = transactions.value.length;
+  };
+
+  const clearTransactions = () => {
+    clearCategories();
+    transactions.value = [];
+    table.value.rows = transactions.value;
+  };
+
+  const rowClicked = (row: any) => {
+    console.log("Row clicked!", row);
   };
 
   return {
     processTransaction,
-    transactions,
+    clearTransactions,
     table,
+    rowClicked,
   };
 };
 export default useTransactions;

@@ -1,9 +1,9 @@
 import { ref, watch } from "vue";
 
-const useLocalStorage = (key: any) => {
+const useLocalStorage = <T>(key: any, defaultValue: T) => {
   let init = localStorage.getItem(key);
 
-  const variable = ref(init ? JSON.parse(init) : undefined);
+  const variable = ref<T>(init ? JSON.parse(init) : defaultValue);
 
   watch(
     () => variable.value,

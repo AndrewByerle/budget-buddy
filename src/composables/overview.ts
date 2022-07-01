@@ -19,15 +19,21 @@ const categories = ref([
   },
 ]);
 
-const monthlyAllowance = ref(0);
-// const monthlyAllowance = useLocalStorage(0);
+// const monthlyAllowance = ref(0);
+const monthlyAllowance = useLocalStorage("monthly_allowance", 45);
 
 const useGroups = () => {
   return { groups };
 };
 
 const useCategories = () => {
-  return { categories };
+  const clearCategories = () => {
+    categories.value.forEach((category) => {
+      monthlyAllowance.value += category.expense;
+      category.expense = 0;
+    });
+  };
+  return { categories, clearCategories };
 };
 
 const useBudget = () => {

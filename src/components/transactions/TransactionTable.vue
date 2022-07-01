@@ -2,7 +2,7 @@
 import useTransactions from "@/composables/transactions";
 import TableLite from "vue3-table-lite/ts";
 
-const { table, tableLoadingFinish } = useTransactions();
+const { table, rowClicked } = useTransactions();
 </script>
 
 <template>
@@ -15,6 +15,7 @@ const { table, tableLoadingFinish } = useTransactions();
       :total="table.totalRecordCount"
       :sortable="table.sortable"
       @is-finished="table.isLoading = false"
+      @row-clicked="rowClicked"
     />
   </div>
 </template>
