@@ -56,9 +56,7 @@ const formatDate = (date: Date) => {
       <div>
         <div class="row">
           <p>Amount</p>
-          <div class="amount">
-            <input type="number" v-model="amount" placeholder="$Amount" />
-          </div>
+          <input type="number" v-model="amount" placeholder="$Amount" />
         </div>
       </div>
       <div class="row">
@@ -76,10 +74,7 @@ const formatDate = (date: Date) => {
   border: 1px solid rgb(232, 240, 243);
   margin: 20px;
 }
-.amount {
-  display: flex;
-  background-color: red;
-}
+
 .transaction {
   background-color: white;
   border: 1px solid #eee;
@@ -94,7 +89,7 @@ const formatDate = (date: Date) => {
 }
 .row {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
 }
 .add-transaction-button {

@@ -1,11 +1,12 @@
 import useLocalStorage from "@/components/LocalStorage";
 import type { Category, Transaction } from "@/definitions/budgetDefs";
+import { removeItem } from "@/utils/remove";
 import { ref } from "vue";
 import { useMonthlyAllowance, useCategories } from "./overview";
 
 const { monthlyAllowance } = useMonthlyAllowance();
 
-const { clearCategories, getCategoryById, reduceCategoryValue } =
+const { clearCategories, getCategoryById, increaseCategoryExpense } =
   useCategories();
 
 const transactions = ref<Transaction[]>([]);
@@ -78,8 +79,7 @@ const useTransactions = () => {
 
   const processTransaction = (transaction: Transaction) => {
     transactions.value.unshift(transaction);
-    console.log(transactions.value);
-    getCategoryById(transaction.categoryId).expense += transaction.amount;
+    increaseCategoryExpense(transaction.categoryId, transaction.amount);
     monthlyAllowance.value -= transaction.amount;
     table.value.totalRecordCount = transactions.value.length;
   };
@@ -90,21 +90,11 @@ const useTransactions = () => {
     table.value.rows = transactions.value;
   };
 
-  function removeItem<T>(arr: Array<T>, value: T): Array<T> {
-    const index = arr.indexOf(value);
-    if (index > -1) {
-      arr.splice(index, 1);
-    }
-    return arr;
-  }
-
   const rowClicked = (row: any) => {
-    console.log("Row clicked!", row);
     if (isEditTableActive.value) {
-      reduceCategoryValue(row.categoryId, row.amount);
+      increaseCategoryExpense(row.categoryId, -row.amount);
+      monthlyAllowance.value += row.amount;
       removeItem(transactions.value, row);
-      //   refreshCategories();
-      // updateMonthlyAllowance();
     }
   };
 

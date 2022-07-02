@@ -38,10 +38,10 @@ const useCategories = () => {
     });
   };
 
-  const reduceCategoryValue = (id: string, value: number) => {
+  const increaseCategoryExpense = (id: string, value: number) => {
     categories.value.forEach((category) => {
       if (category.id === id) {
-        category.expense -= value;
+        category.expense += value;
       }
     });
   };
@@ -67,19 +67,19 @@ const useCategories = () => {
     clearCategories,
     getCategoryById,
     addCategory,
-    reduceCategoryValue,
+    increaseCategoryExpense,
   };
 };
 
 const useMonthlyAllowance = () => {
-  const updateMonthlyAllowance = () => {
-    let res = 0;
-    categories.value.forEach((category) => {
-      res += category.expense;
-    });
-    monthlyAllowance.value = res;
-  };
-  return { monthlyAllowance, updateMonthlyAllowance };
+  // const updateMonthlyAllowance = () => {
+  //   let res = 0;
+  //   categories.value.forEach((category) => {
+  //     res += category.expense;
+  //   });
+  //   monthlyAllowance.value -= res;
+  // };
+  return { monthlyAllowance };
 };
 
 export { useGroups, useCategories, useMonthlyAllowance };
