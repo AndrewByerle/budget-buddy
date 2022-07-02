@@ -12,7 +12,6 @@ const { table, rowClicked } = useTransactions();
       :is-loading="table.isLoading"
       :columns="table.columns"
       :rows="table.rows"
-      :rowClasses="table.rowClasses"
       :total="table.totalRecordCount"
       :sortable="table.sortable"
       @is-finished="table.isLoading = false"

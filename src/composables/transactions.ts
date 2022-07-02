@@ -49,8 +49,8 @@ const table = ref({
   rows: transactions.value,
   totalRecordCount: transactions.value.length,
   sortable: {
-    order: "id",
-    sort: "asc",
+    order: "date",
+    sort: "desc",
   },
 });
 
