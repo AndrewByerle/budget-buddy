@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { useCategories } from "@/composables/overview";
 import useTransactions from "@/composables/transactions";
-import type { Category } from "@/definitions/budgetDefs";
 import { ref } from "vue";
 import Header from "../components/Header.vue";
 import TransactionTable from "../components/transactions/TransactionTable.vue";
+import { createId } from "@/utils/uid";
+
 const { categories } = useCategories();
-const { processTransaction, clearTransactions } = useTransactions();
+const { processTransaction, clearTransactions, editTransactions } =
+  useTransactions();
 const categorySelected = ref();
 const amount = ref();
 const description = ref("");
@@ -27,12 +29,14 @@ const formatDate = (date: Date) => {
         description: description,
         date: formatDate(date),
         categoryId: categorySelected.id,
+        id: createId(),
       })
     "
   >
     Add Transaction
   </button>
   <button @click="clearTransactions">clear</button>
+  <button @click="editTransactions">edit</button>
 
   <div class="transaction">
     <div class="card">

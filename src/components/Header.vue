@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useBudget } from "@/composables/overview";
+import { useMonthlyAllowance } from "@/composables/overview";
 import { ref } from "vue";
 
 const month = new Date().toLocaleString("en-US", { month: "long" });
-const { monthlyAllowance } = useBudget();
+const { monthlyAllowance } = useMonthlyAllowance();
 const isEditActive = ref(false);
 </script>
 
@@ -20,7 +20,6 @@ const isEditActive = ref(false);
       <div v-else>
         <p @click="isEditActive = true">${{ monthlyAllowance }}</p>
       </div>
-      <!-- <p>{{ monthlyAllowance }}</p> -->
       <h3>Monthly Allowance</h3>
     </div>
   </div>

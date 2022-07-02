@@ -16,7 +16,6 @@ import SideNav from "./components/sidenav/SideNav.vue";
 }
 
 body,
-input,
 textarea,
 button {
   font-family: arial, sans-serif;

@@ -21,14 +21,22 @@ const categories = ref([
   },
 ]);
 
-// const monthlyAllowance = ref(0);
-const monthlyAllowance = useLocalStorage("monthly_allowance", 45);
+const monthlyAllowance = ref(0);
+// const monthlyAllowance = useLocalStorage("monthly_allowance", 45);
 
 const useGroups = () => {
   return { groups };
 };
 
 const useCategories = () => {
+  const addCategory = (groupId: string) => {
+    categories.value.push({
+      name: "Category",
+      expense: 0,
+      groupId: groupId,
+      id: createId(),
+    });
+  };
   const clearCategories = () => {
     categories.value.forEach((category) => {
       monthlyAllowance.value += category.expense;
@@ -46,11 +54,23 @@ const useCategories = () => {
     });
     return res.value;
   };
-  return { categories, clearCategories, getCategoryById };
+  return {
+    categories,
+    clearCategories,
+    getCategoryById,
+    addCategory,
+  };
 };
 
-const useBudget = () => {
-  return { monthlyAllowance };
+const useMonthlyAllowance = () => {
+  const updateMonthlyAllowance = () => {
+    let res = 0;
+    categories.value.forEach((category) => {
+      res += category.expense;
+    });
+    monthlyAllowance.value = res;
+  };
+  return { monthlyAllowance, updateMonthlyAllowance };
 };
 
-export { useGroups, useCategories, useBudget };
+export { useGroups, useCategories, useMonthlyAllowance };

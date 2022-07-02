@@ -2,27 +2,16 @@
 import LabelRow from "../category/LabelRow.vue";
 import Category from "../category/Category.vue";
 import { useCategories } from "@/composables/overview";
-import { createId } from "@/utils/uid";
 
 const { groupId } = defineProps<{
   groupId: string;
 }>();
-let { categories } = useCategories();
-
-const addCategory = () => {
-  categories.value.push({
-    name: "Category",
-    expense: 0,
-    groupId: groupId,
-    id: createId(),
-  });
-  console.log(categories.value);
-};
+const { categories, addCategory } = useCategories();
 </script>
 
 <template>
   <div class="wrapper">
-    <LabelRow @add-category="addCategory" />
+    <LabelRow @add-category="addCategory(groupId)" />
     <template v-for="category in categories">
       <div v-if="category.groupId === groupId">
         <Category :category-info="category" />
