@@ -5,7 +5,8 @@ import { useMonthlyAllowance, useCategories } from "./overview";
 
 const { monthlyAllowance } = useMonthlyAllowance();
 
-const { clearCategories, getCategoryById } = useCategories();
+const { clearCategories, getCategoryById, reduceCategoryValue } =
+  useCategories();
 
 const transactions = ref<Transaction[]>([]);
 // const transactions = useLocalStorage<Transaction[]>("trasaction_array", []);
@@ -93,8 +94,6 @@ const useTransactions = () => {
     const index = arr.indexOf(value);
     if (index > -1) {
       arr.splice(index, 1);
-      //   table.value.totalRecordCount = transactions.value.length;
-      //   table.value.rows = transactions.value;
     }
     return arr;
   }
@@ -102,6 +101,7 @@ const useTransactions = () => {
   const rowClicked = (row: any) => {
     console.log("Row clicked!", row);
     if (isEditTableActive.value) {
+      reduceCategoryValue(row.categoryId, row.amount);
       removeItem(transactions.value, row);
       //   refreshCategories();
       // updateMonthlyAllowance();

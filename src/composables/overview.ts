@@ -37,6 +37,14 @@ const useCategories = () => {
       id: createId(),
     });
   };
+
+  const reduceCategoryValue = (id: string, value: number) => {
+    categories.value.forEach((category) => {
+      if (category.id === id) {
+        category.expense -= value;
+      }
+    });
+  };
   const clearCategories = () => {
     categories.value.forEach((category) => {
       monthlyAllowance.value += category.expense;
@@ -59,6 +67,7 @@ const useCategories = () => {
     clearCategories,
     getCategoryById,
     addCategory,
+    reduceCategoryValue,
   };
 };
 
