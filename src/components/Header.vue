@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMonthlyAllowance } from "@/composables/overview";
+import { useMonthlyAllowance } from "@/composables/allowance";
 import { ref } from "vue";
 
 const month = new Date().toLocaleString("en-US", { month: "long" });

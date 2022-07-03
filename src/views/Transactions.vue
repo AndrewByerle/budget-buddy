@@ -8,7 +8,7 @@ import TransactionCard from "../components/transactions/TransactionCard.vue";
 
 const {
   processTransaction,
-  clearTransactions,
+  clearAllTransactions,
   editTransactions,
   categorySelected,
   amount,
@@ -23,33 +23,28 @@ const formatDate = (date: Date) => {
 
 <template>
   <Header></Header>
-  <button
-    class="button"
-    @click="
-      processTransaction({
-        categoryName: categorySelected.name,
-        amount: amount,
-        description: description,
-        date: formatDate(date),
-        categoryId: categorySelected.id,
-        id: createId(),
-      })
-    "
-  >
-    Add Transaction
-  </button>
-  <button @click="clearTransactions" class="button">clear</button>
-  <button @click="editTransactions" class="button">edit</button>
+  <div class="button-row">
+    <button
+      class="button"
+      @click="
+        processTransaction({
+          categoryName: categorySelected.name,
+          amount: amount,
+          description: description,
+          date: formatDate(date),
+          categoryId: categorySelected.id,
+          id: createId(),
+        })
+      "
+    >
+      Add Transaction
+    </button>
+    <button @click="editTransactions" class="button">edit</button>
+    <button @click="clearAllTransactions" class="button">clear</button>
+  </div>
 
   <TransactionCard />
   <TransactionTable />
 </template>
 
-<style>
-.button {
-  background: inherit;
-  border-radius: 5px;
-  border-width: 2px;
-  font-size: 20px;
-}
-</style>
+<style></style>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useGroups } from "@/composables/overview";
+import useTransactions from "@/composables/transactions";
 import type { Group } from "@/definitions/budgetDefs";
 import CategoryTable from "./category/CategoryTable.vue";
 const { group } = defineProps<{
@@ -7,6 +9,14 @@ const { group } = defineProps<{
 
 const vFocus = {
   mounted: (el: any) => el.focus(),
+};
+const { isEditGroupsActive } = useGroups();
+const { deleteGroupTransactions } = useTransactions();
+
+const handleGroupInput = () => {
+  if (group.name !== "") {
+    group.edit = false;
+  }
 };
 </script>
 
@@ -17,19 +27,29 @@ const vFocus = {
         v-focus
         v-if="group.edit"
         v-model="group.name"
-        @keyup.enter="group.edit = false"
+        @keyup.enter="handleGroupInput"
       />
       <div v-else>
         <p @click="group.edit = true">
           {{ group.name }}
         </p>
       </div>
-      <button class="collapse-btn" @click="group.collapsed = !group.collapsed">
+      <button
+        v-if="isEditGroupsActive"
+        class="collapse-btn"
+        @click="deleteGroupTransactions(group)"
+      >
+        <font-awesome-icon icon="fa-solid fa-xmark" class="x-icon group-icon" />
+      </button>
+      <button
+        v-else
+        class="collapse-btn"
+        @click="group.collapsed = !group.collapsed"
+      >
         <font-awesome-icon
           icon="fa-solid fa-angle-down"
-          style="font-size: 1.5em"
           :class="{ 'rotate-180': !group.collapsed }"
-          class="angle-icon"
+          class="angle-icon group-icon"
         />
       </button>
     </div>
@@ -40,6 +60,12 @@ const vFocus = {
 </template>
 
 <style>
+.x-icon {
+  color: red;
+}
+.group-icon {
+  font-size: 1.5em;
+}
 .angle-icon {
   transition: 0.2s linear;
 }
@@ -53,7 +79,6 @@ const vFocus = {
 .collapse-btn {
   background: inherit;
   border: none;
-  /* width: 25%; */
 }
 .group-header {
   display: flex;

@@ -8,6 +8,12 @@ const { categoryInfo } = defineProps<{
 }>();
 
 const isEditActive = ref(false);
+
+const handleCategoryInput = () => {
+  if (categoryInfo.name !== "") {
+    isEditActive.value = false;
+  }
+};
 </script>
 
 <template>
@@ -16,7 +22,7 @@ const isEditActive = ref(false);
       <input
         v-if="isEditActive"
         v-model="categoryInfo.name"
-        @keyup.enter="isEditActive = false"
+        @keyup.enter="handleCategoryInput"
       />
       <div v-else>
         <p @click="isEditActive = true">

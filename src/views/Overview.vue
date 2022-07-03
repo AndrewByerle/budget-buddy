@@ -2,25 +2,17 @@
 import BudgetGroup from "../components/BudgetGroup.vue";
 import { useGroups } from "../composables/overview";
 import Header1 from "../components/Header.vue";
-import { createId } from "@/utils/uid";
 
-const { groups } = useGroups();
-const addGroup = () =>
-  groups.value.push({
-    name: "new group",
-    edit: true,
-    collapsed: false,
-    id: createId(),
-  });
+const { groups, addGroup, toggleEdit } = useGroups();
 </script>
 
 <template>
   <div>
     <Header1 />
-    <button class="add-group-button" @click="addGroup">Add Group</button>
-    <button @click="">Edit</button>
-    <button>redo</button>
-    <button>undo</button>
+    <div class="button-row">
+      <button class="button" @click="addGroup">Add Group</button>
+      <button @click="toggleEdit" class="button">Edit</button>
+    </div>
     <template v-for="group in groups">
       <BudgetGroup :group="group" />
     </template>
@@ -28,6 +20,11 @@ const addGroup = () =>
 </template>
 
 <style>
+.button-row {
+  display: flex;
+  gap: 10px;
+  padding-left: 3%;
+}
 .monthly-allowance {
   display: flex;
   flex-direction: column;
@@ -35,11 +32,10 @@ const addGroup = () =>
   text-align: center;
 }
 
-.add-group-button {
+.button {
   background: inherit;
   border-radius: 5px;
   border-width: 2px;
-  width: 120px;
   height: 40px;
   font-size: 20px;
 }

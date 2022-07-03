@@ -1,13 +1,13 @@
-import useLocalStorage from "@/components/LocalStorage";
-import type { Category, Transaction } from "@/definitions/budgetDefs";
+import type { Category, Group, Transaction } from "@/definitions/budgetDefs";
 import { removeItem } from "@/utils/remove";
-import { faSortAmountDownAlt } from "@fortawesome/free-solid-svg-icons";
 import { ref } from "vue";
-import { useMonthlyAllowance, useCategories } from "./overview";
+import { useMonthlyAllowance } from "./allowance";
+import { useCategories, useGroups } from "./overview";
 
 const { monthlyAllowance } = useMonthlyAllowance();
 
 const { clearCategories, increaseCategoryExpense } = useCategories();
+const { deleteGroup } = useGroups();
 
 const transactions = ref<Transaction[]>([]);
 // const transactions = useLocalStorage<Transaction[]>("trasaction_array", []);
@@ -89,10 +89,25 @@ const useTransactions = () => {
     amount.value = 0;
   };
 
-  const clearTransactions = () => {
+  const clearAllTransactions = () => {
     clearCategories();
     transactions.value = [];
     table.value.rows = transactions.value;
+  };
+
+  const deleteGroupTransactions = (group: Group) => {
+    const removeCateogires = deleteGroup(group);
+    const removeTransactions = ref<Transaction[]>([]);
+    removeCateogires.forEach((category) =>
+      transactions.value.forEach((transaction) => {
+        if (category.id === transaction.categoryId) {
+          removeTransactions.value.push(transaction);
+        }
+      })
+    );
+    removeTransactions.value.forEach((element) =>
+      removeItem(transactions.value, element)
+    );
   };
 
   const rowClicked = (row: any) => {
@@ -105,7 +120,8 @@ const useTransactions = () => {
 
   return {
     processTransaction,
-    clearTransactions,
+    clearAllTransactions,
+    deleteGroupTransactions,
     table,
     rowClicked,
     editTransactions,
@@ -113,6 +129,7 @@ const useTransactions = () => {
     amount,
     description,
     date,
+    transactions,
   };
 };
 export default useTransactions;
