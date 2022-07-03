@@ -17,9 +17,11 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@vuepic/vue-datepicker": "^3.2.2",
+    "chart.js": "^3.8.0",
     "pinia": "^2.0.14",
     "uuid": "^8.3.2",
     "vue": "^3.2.37",
+    "vue-chart-3": "^3.1.8",
     "vue-router": "^4.0.16",
     "vue3-table-lite": "^1.2.3"
   },

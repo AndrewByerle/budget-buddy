@@ -1,7 +1,6 @@
 import useLocalStorage from "@/components/LocalStorage";
 import { computed, ref } from "vue";
 import { createId } from "@/utils/uid";
-import type { Category } from "@/definitions/budgetDefs";
 
 const groups = ref([
   {
@@ -52,33 +51,15 @@ const useCategories = () => {
     });
   };
 
-  const getCategoryById = (id: string): Category => {
-    const res = ref<Category>(categories.value[0]);
-    categories.value.forEach((category) => {
-      if (category.id === id) {
-        console.log("found category!");
-        res.value = category;
-      }
-    });
-    return res.value;
-  };
   return {
     categories,
     clearCategories,
-    getCategoryById,
     addCategory,
     increaseCategoryExpense,
   };
 };
 
 const useMonthlyAllowance = () => {
-  // const updateMonthlyAllowance = () => {
-  //   let res = 0;
-  //   categories.value.forEach((category) => {
-  //     res += category.expense;
-  //   });
-  //   monthlyAllowance.value -= res;
-  // };
   return { monthlyAllowance };
 };
 

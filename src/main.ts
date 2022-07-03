@@ -11,11 +11,12 @@ import {
   faAngleDown,
   faXmark,
   faCirclePlus,
+  faChartPie,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faHouse, faList, faAngleDown, faXmark, faCirclePlus);
+library.add(faHouse, faList, faAngleDown, faXmark, faCirclePlus, faChartPie);
 
 import App from "./App.vue";
 import router from "./router";

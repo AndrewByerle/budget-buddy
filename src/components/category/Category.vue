@@ -1,6 +1,5 @@
 <!-- A single row in the category table -->
 <script setup lang="ts">
-import { useMonthlyAllowance, useCategories } from "@/composables/overview";
 import type { Category } from "@/definitions/budgetDefs";
 import { ref } from "vue";
 

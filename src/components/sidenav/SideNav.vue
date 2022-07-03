@@ -7,6 +7,7 @@ import LinkItem from "./LinkItem.vue";
     <h1>Budget Buddy</h1>
     <LinkItem to="/" title="Overview" icon="fa-solid fa-house" />
     <LinkItem to="/transactions" title="Transactions" icon="fa-solid fa-list" />
+    <LinkItem to="/insights" title="Insights" icon="fa-solid fa-chart-pie" />
   </div>
 </template>
 

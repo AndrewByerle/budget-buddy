@@ -1,16 +1,21 @@
 import useLocalStorage from "@/components/LocalStorage";
 import type { Category, Transaction } from "@/definitions/budgetDefs";
 import { removeItem } from "@/utils/remove";
+import { faSortAmountDownAlt } from "@fortawesome/free-solid-svg-icons";
 import { ref } from "vue";
 import { useMonthlyAllowance, useCategories } from "./overview";
 
 const { monthlyAllowance } = useMonthlyAllowance();
 
-const { clearCategories, getCategoryById, increaseCategoryExpense } =
-  useCategories();
+const { clearCategories, increaseCategoryExpense } = useCategories();
 
 const transactions = ref<Transaction[]>([]);
 // const transactions = useLocalStorage<Transaction[]>("trasaction_array", []);
+const categorySelected = ref();
+const amount = ref();
+const description = ref("");
+const date = ref();
+const isEditTableActive = ref(false);
 
 const tableColumns = ref([
   {
@@ -56,8 +61,6 @@ const table = ref({
   },
 });
 
-const isEditTableActive = ref(false);
-
 const useTransactions = () => {
   const editTransactions = () => {
     isEditTableActive.value = !isEditTableActive.value;
@@ -82,6 +85,8 @@ const useTransactions = () => {
     increaseCategoryExpense(transaction.categoryId, transaction.amount);
     monthlyAllowance.value -= transaction.amount;
     table.value.totalRecordCount = transactions.value.length;
+    description.value = "";
+    amount.value = 0;
   };
 
   const clearTransactions = () => {
@@ -104,6 +109,10 @@ const useTransactions = () => {
     table,
     rowClicked,
     editTransactions,
+    categorySelected,
+    amount,
+    description,
+    date,
   };
 };
 export default useTransactions;

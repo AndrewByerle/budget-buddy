@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { v4 as uuidv4 } from "uuid";
 import BudgetGroup from "../components/BudgetGroup.vue";
 import { useGroups } from "../composables/overview";
 import Header1 from "../components/Header.vue";
