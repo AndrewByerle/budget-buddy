@@ -2,12 +2,9 @@ import { computed, ref } from "vue";
 import { createId } from "@/utils/uid";
 import type { Category, Group } from "@/definitions/budgetDefs";
 import { removeItem } from "@/utils/remove";
-// import useTransactions from "./transactions";
 import { useMonthlyAllowance } from "./allowance";
-import { remove } from "@vue/shared";
 
 const { monthlyAllowance } = useMonthlyAllowance();
-// const { transactions } = useTransactions();
 
 const groups = ref([
   {
@@ -18,16 +15,7 @@ const groups = ref([
   },
 ]);
 
-const categories = ref<Category[]>([
-  // {
-  //   name: "Ex. Gas",
-  //   expense: 0,
-  //   groupId: groups.value[0].id,
-  //   id: createId(),
-  // },
-]);
-
-// const monthlyAllowance = useLocalStorage("monthly_allowance", 45);
+const categories = ref<Category[]>([]);
 
 const isEditGroupsActive = ref(false);
 
@@ -37,7 +25,7 @@ const useGroups = () => {
     categories.value.forEach((category) => {
       if (category.groupId == group.id) {
         removeCategories.value.push(category);
-        // console.log(transactions.value);
+        monthlyAllowance.value += category.expense;
       }
     });
     removeCategories.value.forEach((element) =>
@@ -46,6 +34,7 @@ const useGroups = () => {
     removeItem(groups.value, group);
     return removeCategories.value;
   };
+
   const addGroup = () =>
     groups.value.push({
       name: "",
@@ -68,7 +57,6 @@ const useCategories = () => {
       groupId: groupId,
       id: createId(),
     });
-    // console.log(categories.value);
   };
 
   const increaseCategoryExpense = (id: string, value: number) => {

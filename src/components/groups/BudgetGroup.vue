@@ -2,7 +2,8 @@
 import { useGroups } from "@/composables/overview";
 import useTransactions from "@/composables/transactions";
 import type { Group } from "@/definitions/budgetDefs";
-import CategoryTable from "./category/CategoryTable.vue";
+import CategoryTable from "../category/CategoryTable.vue";
+
 const { group } = defineProps<{
   group: Group;
 }>();

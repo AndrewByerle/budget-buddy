@@ -5,7 +5,6 @@ import { useMonthlyAllowance } from "./allowance";
 import { useCategories, useGroups } from "./overview";
 
 const { monthlyAllowance } = useMonthlyAllowance();
-
 const { clearCategories, increaseCategoryExpense } = useCategories();
 const { deleteGroup } = useGroups();
 

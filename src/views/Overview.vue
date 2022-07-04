@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import BudgetGroup from "../components/BudgetGroup.vue";
 import { useGroups } from "../composables/overview";
 import Header1 from "../components/Header.vue";
+import BudgetGroup from "@/components/groups/BudgetGroup.vue";
 
 const { groups, addGroup, toggleEdit } = useGroups();
 </script>
