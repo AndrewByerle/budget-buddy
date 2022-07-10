@@ -1,21 +1,25 @@
-import { computed, ref } from "vue";
+import { computed, ref, type Ref } from "vue";
 import { createId } from "@/utils/uid";
 import type { Category, Group } from "@/definitions/budgetDefs";
 import { removeItem } from "@/utils/remove";
 import { useMonthlyAllowance } from "./allowance";
+import { getAuth } from "@firebase/auth";
+import useFirebase from "@/firebase/firebase";
 
 const { monthlyAllowance } = useMonthlyAllowance();
+const {
+  getGroupsFB,
+  createGroupFB,
+  createCategoryFB,
+  updateCategoryFB,
+  getCategoriesFB,
+} = useFirebase();
 
-const groups = ref([
-  {
-    name: "Car",
-    edit: true,
-    collapsed: false,
-    id: createId(),
-  },
-]);
+const groups = ref<Group[]>([]);
+await getGroupsFB(groups);
 
 const categories = ref<Category[]>([]);
+await getCategoriesFB(categories);
 
 const isEditGroupsActive = ref(false);
 
@@ -35,13 +39,18 @@ const useGroups = () => {
     return removeCategories.value;
   };
 
-  const addGroup = () =>
-    groups.value.push({
+  const addGroup = () => {
+    const id = createId();
+    const data = {
       name: "",
       edit: true,
       collapsed: false,
-      id: createId(),
-    });
+      id: id,
+    };
+    //firebase
+    createGroupFB(id, data);
+    groups.value.push(data);
+  };
 
   const toggleEdit = () => {
     isEditGroupsActive.value = !isEditGroupsActive.value;
@@ -51,12 +60,16 @@ const useGroups = () => {
 
 const useCategories = () => {
   const addCategory = (groupId: string) => {
-    categories.value.push({
+    const id = createId();
+    const data = {
       name: "Category",
       expense: 0,
       groupId: groupId,
-      id: createId(),
-    });
+      id: id,
+    };
+    //firebase
+    createCategoryFB(groupId, id, data);
+    categories.value.push(data);
   };
 
   const increaseCategoryExpense = (id: string, value: number) => {
@@ -72,12 +85,25 @@ const useCategories = () => {
       category.expense = 0;
     });
   };
+  const updateCategory = (
+    category: Category,
+    isEditActive: Ref<boolean>,
+    groupId: string
+  ) => {
+    if (category.name !== "") {
+      isEditActive.value = false;
+      //firebase
+      const data = { ...category };
+      updateCategoryFB(groupId, category.id, data);
+    }
+  };
 
   return {
     categories,
     clearCategories,
     addCategory,
     increaseCategoryExpense,
+    updateCategory,
   };
 };
 

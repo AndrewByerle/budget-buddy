@@ -2,6 +2,7 @@
 import { useGroups } from "@/composables/overview";
 import useTransactions from "@/composables/transactions";
 import type { Group } from "@/definitions/budgetDefs";
+import useFirebase from "@/firebase/firebase";
 import CategoryTable from "../category/CategoryTable.vue";
 
 const { group } = defineProps<{
@@ -13,10 +14,14 @@ const vFocus = {
 };
 const { isEditGroupsActive } = useGroups();
 const { deleteGroupTransactions } = useTransactions();
+const { updateGroupFB } = useFirebase();
 
 const handleGroupInput = () => {
   if (group.name !== "") {
     group.edit = false;
+    // firebase, update group name
+    const data = { ...group, name: group.name };
+    updateGroupFB(group.id, data);
   }
 };
 </script>
@@ -24,17 +29,13 @@ const handleGroupInput = () => {
 <template>
   <div class="budget-group">
     <div class="group-header">
-      <input
-        v-focus
-        v-if="group.edit"
-        v-model="group.name"
-        @keyup.enter="handleGroupInput"
-      />
-      <div v-else>
+      <!-- deletted input v-if group.edit -->
+      <input v-focus v-model="group.name" @keyup.enter="handleGroupInput" />
+      <!-- <div v-else>
         <p @click="group.edit = true">
           {{ group.name }}
         </p>
-      </div>
+      </div> -->
       <button
         v-if="isEditGroupsActive"
         class="collapse-btn"

@@ -14,7 +14,7 @@ const { categories, addCategory } = useCategories();
     <LabelRow @add-category="addCategory(groupId)" />
     <template v-for="category in categories">
       <div v-if="category.groupId === groupId">
-        <Category :category-info="category" />
+        <Category :category-info="category" :group-id="groupId" />
       </div>
     </template>
   </div>

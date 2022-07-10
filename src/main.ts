@@ -16,13 +16,15 @@ import {
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faHouse, faList, faAngleDown, faXmark, faCirclePlus, faChartPie);
-
 import App from "./App.vue";
 import router from "./router";
+// import { getFirebaseClient } from "./firebase/firebase";
+
+// getFirebaseClient();
 
 const app = createApp(App).component("font-awesome-icon", FontAwesomeIcon);
 
+library.add(faHouse, faList, faAngleDown, faXmark, faCirclePlus, faChartPie);
 app.component("Datepicker", Datepicker);
 
 app.use(createPinia());

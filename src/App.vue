@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import SideNav from "./components/sidenav/SideNav.vue";
+import { getFirebaseClient } from "./firebase/firebase";
+
+getFirebaseClient();
 </script>
 
 <template>
