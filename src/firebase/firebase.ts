@@ -6,6 +6,7 @@ import {
   browserSessionPersistence,
   browserLocalPersistence,
   onAuthStateChanged,
+  type User,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
@@ -18,7 +19,8 @@ import {
   query,
 } from "firebase/firestore";
 
-import { onUnmounted, ref, type Ref } from "vue";
+import type { Ref } from "vue";
+import { computed } from "@vue/reactivity";
 export const getFirebaseClient = () => {
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -39,9 +41,8 @@ export const getFirebaseClient = () => {
 };
 
 getFirebaseClient();
-const uid = ref();
 
-const getCurrentUser = async () => {
+const getCurrentUser = async (): Promise<any> => {
   return new Promise((resolve, reject) => {
     const removeListener = onAuthStateChanged(
       getAuth(),
@@ -52,28 +53,36 @@ const getCurrentUser = async () => {
     );
   });
 };
-await getCurrentUser().then((user: any) => (uid.value = user.uid));
+
+const isLoggedIn = computed(async () => {
+  return (await getCurrentUser()) !== null;
+});
+
+const getUid = async (): Promise<string> => {
+  const user = await getCurrentUser();
+  return user.uid;
+};
 
 const db = getFirestore();
 
 const useFirebase = () => {
-  // Add a new document in collection "cities"
-  const createUserFB = (data: Object) => {
-    console.log("creaeuser", uid.value);
-    setDoc(doc(db, "users", uid.value), {
+  const createUserFB = (data: Object, id: string) => {
+    setDoc(doc(db, "users", id), {
       ...data,
     });
   };
 
-  const createGroupFB = (id: string, data: Object) => {
-    return setDoc(doc(db, "users", uid.value, "groups", id), {
+  const createGroupFB = async (id: string, data: Object) => {
+    const uid = await getUid();
+    setDoc(doc(db, "users", uid, "groups", id), {
       ...data,
     });
   };
 
   const updateGroupFB = async (id: string, data: Group) => {
     try {
-      await updateDoc(doc(db, "users", uid.value, "groups", id), {
+      const uid = await getUid();
+      await updateDoc(doc(db, "users", uid, "groups", id), {
         ...data,
       });
     } catch (e) {
@@ -82,9 +91,8 @@ const useFirebase = () => {
   };
 
   const getGroupsFB = async (groups: Ref<Group[]>) => {
-    const querySnapshot = await getDocs(
-      collection(db, "users", uid.value, "groups")
-    );
+    const uid = await getUid();
+    const querySnapshot = await getDocs(collection(db, "users", uid, "groups"));
     const temp: Group[] = [];
     querySnapshot.forEach((doc) => {
       temp.push(doc.data() as Group);
@@ -92,17 +100,15 @@ const useFirebase = () => {
     groups.value = temp;
   };
 
-  const createCategoryFB = (
+  const createCategoryFB = async (
     groupId: string,
     categoryId: string,
     data: Object
   ) => {
-    return setDoc(
-      doc(db, "users", uid.value, "groups", groupId, "categories", categoryId),
-      {
-        ...data,
-      }
-    );
+    const uid = await getUid();
+    setDoc(doc(db, "users", uid, "groups", groupId, "categories", categoryId), {
+      ...data,
+    });
   };
 
   const updateCategoryFB = async (
@@ -110,8 +116,9 @@ const useFirebase = () => {
     categoryId: string,
     data: Category
   ) => {
+    const uid = await getUid();
     await updateDoc(
-      doc(db, "users", uid.value, "groups", groupId, "categories", categoryId),
+      doc(db, "users", uid, "groups", groupId, "categories", categoryId),
       {
         ...data,
       }
@@ -119,21 +126,13 @@ const useFirebase = () => {
   };
 
   const getCategoriesFB = async (categories: Ref<Category[]>) => {
+    const uid = await getUid();
     categories.value = [];
-    const groupSnapshot = await getDocs(
-      collection(db, "users", uid.value, "groups")
-    );
+    const groupSnapshot = await getDocs(collection(db, "users", uid, "groups"));
     groupSnapshot.forEach(async (doc) => {
       console.log("=> doc", doc.data().id);
       const categorySnapshot = await getDocs(
-        collection(
-          db,
-          "users",
-          uid.value,
-          "groups",
-          doc.data().id,
-          "categories"
-        )
+        collection(db, "users", uid, "groups", doc.data().id, "categories")
       );
       categorySnapshot.forEach((doc) => {
         console.log(doc.data());
@@ -150,6 +149,8 @@ const useFirebase = () => {
     createCategoryFB,
     updateCategoryFB,
     getCategoriesFB,
+    getCurrentUser,
+    isLoggedIn,
   };
 };
 

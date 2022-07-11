@@ -9,13 +9,13 @@ const password = ref("");
 const router = useRouter();
 const { createUserFB } = useFirebase();
 
-const register = () => {
-  createUserWithEmailAndPassword(getAuth(), email.value, password.value)
+const register = async () => {
+  await createUserWithEmailAndPassword(getAuth(), email.value, password.value)
     .then((userCredential) => {
       console.log("Successfully registered", userCredential.user);
       // firebase
       const data = { email: email.value, password: password.value };
-      createUserFB(data);
+      createUserFB(data, userCredential.user.uid);
 
       router.push("/");
     })

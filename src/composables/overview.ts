@@ -3,7 +3,6 @@ import { createId } from "@/utils/uid";
 import type { Category, Group } from "@/definitions/budgetDefs";
 import { removeItem } from "@/utils/remove";
 import { useMonthlyAllowance } from "./allowance";
-import { getAuth } from "@firebase/auth";
 import useFirebase from "@/firebase/firebase";
 
 const { monthlyAllowance } = useMonthlyAllowance();
@@ -13,13 +12,16 @@ const {
   createCategoryFB,
   updateCategoryFB,
   getCategoriesFB,
+  isLoggedIn,
 } = useFirebase();
 
 const groups = ref<Group[]>([]);
-await getGroupsFB(groups);
-
 const categories = ref<Category[]>([]);
-await getCategoriesFB(categories);
+
+if ((await isLoggedIn.value) !== false) {
+  await getGroupsFB(groups);
+  await getCategoriesFB(categories);
+}
 
 const isEditGroupsActive = ref(false);
 

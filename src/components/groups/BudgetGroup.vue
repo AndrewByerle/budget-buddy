@@ -29,13 +29,17 @@ const handleGroupInput = () => {
 <template>
   <div class="budget-group">
     <div class="group-header">
-      <!-- deletted input v-if group.edit -->
-      <input v-focus v-model="group.name" @keyup.enter="handleGroupInput" />
-      <!-- <div v-else>
+      <input
+        v-if="group.edit"
+        v-focus
+        v-model="group.name"
+        @keyup.enter="handleGroupInput"
+      />
+      <div v-else>
         <p @click="group.edit = true">
           {{ group.name }}
         </p>
-      </div> -->
+      </div>
       <button
         v-if="isEditGroupsActive"
         class="collapse-btn"
