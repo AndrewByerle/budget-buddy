@@ -2,8 +2,9 @@
 import { useGroups } from "../composables/overview";
 import Header1 from "../components/Header.vue";
 import BudgetGroup from "@/components/groups/BudgetGroup.vue";
+import EditButton from "../components/edit/EditButton.vue";
 
-const { groups, addGroup, toggleEdit } = useGroups();
+const { groups, addGroup, toggleEdit, isEditGroupsActive } = useGroups();
 </script>
 
 <template>
@@ -11,7 +12,10 @@ const { groups, addGroup, toggleEdit } = useGroups();
     <Header1 />
     <div class="button-row">
       <button class="button" @click="addGroup">Add Group</button>
-      <button @click="toggleEdit" class="button">Edit</button>
+      <EditButton
+        @handle-press="toggleEdit"
+        :is-edit-active="isEditGroupsActive"
+      />
     </div>
     <template v-for="group in groups">
       <BudgetGroup :group="group" />
@@ -33,10 +37,14 @@ const { groups, addGroup, toggleEdit } = useGroups();
 }
 
 .button {
-  background: inherit;
+  /* background: inherit; */
   border-radius: 5px;
   border-width: 2px;
   height: 40px;
   font-size: 20px;
+}
+.edit {
+  background-color: rgb(49, 179, 129);
+  color: white;
 }
 </style>

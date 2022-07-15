@@ -17,6 +17,7 @@ export type Transaction = {
   categoryName: string;
   date: string;
   amount: number;
+  groupId: string;
   categoryId: string;
   id: string;
 };

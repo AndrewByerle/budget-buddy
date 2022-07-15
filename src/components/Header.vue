@@ -20,7 +20,7 @@ const isEditActive = ref(false);
       <div v-else>
         <p @click="isEditActive = true">${{ monthlyAllowance }}</p>
       </div>
-      <h3>Monthly Allowance</h3>
+      <h3>Remaining</h3>
     </div>
   </div>
 </template>

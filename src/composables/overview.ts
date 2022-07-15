@@ -13,13 +13,15 @@ const {
   updateCategoryFB,
   getCategoriesFB,
   isLoggedIn,
+  getGroupsSnapshot,
 } = useFirebase();
 
-const groups = ref<Group[]>([]);
+const groups = await getGroupsSnapshot();
+// const groups = ref<Group[]>([]);
 const categories = ref<Category[]>([]);
 
 if ((await isLoggedIn.value) !== false) {
-  await getGroupsFB(groups);
+  // await getGroupsFB(groups);
   await getCategoriesFB(categories);
 }
 
@@ -51,7 +53,7 @@ const useGroups = () => {
     };
     //firebase
     createGroupFB(id, data);
-    groups.value.push(data);
+    // groups.value.push(data);
   };
 
   const toggleEdit = () => {
@@ -99,6 +101,15 @@ const useCategories = () => {
       updateCategoryFB(groupId, category.id, data);
     }
   };
+
+  // const getCategoryById = (id: string): Category | null => {
+  //   categories.value.forEach((category) => {
+  //     if (category.id === id) {
+  //       return category;
+  //     }
+  //   });
+  //   return null;
+  // };
 
   return {
     categories,

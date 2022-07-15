@@ -1,14 +1,26 @@
 import type { Category, Group, Transaction } from "@/definitions/budgetDefs";
+import useFirebase from "@/firebase/firebase";
 import { removeItem } from "@/utils/remove";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useMonthlyAllowance } from "./allowance";
 import { useCategories, useGroups } from "./overview";
 
 const { monthlyAllowance } = useMonthlyAllowance();
 const { clearCategories, increaseCategoryExpense } = useCategories();
 const { deleteGroup } = useGroups();
+const { createTransactionFB, getTransactionsFB, isLoggedIn, updateCategoryFB } =
+  useFirebase();
 
 const transactions = ref<Transaction[]>([]);
+
+if ((await isLoggedIn.value) !== false) {
+  await getTransactionsFB(transactions);
+}
+
+const transactionsLength = computed(() => {
+  return transactions.value.length;
+});
+
 // const transactions = useLocalStorage<Transaction[]>("trasaction_array", []);
 const categorySelected = ref();
 const amount = ref();
@@ -53,7 +65,7 @@ const table = ref({
   rowClasses: (row: any) => {},
   columns: tableColumns,
   rows: transactions.value,
-  totalRecordCount: transactions.value.length,
+  totalRecordCount: transactionsLength,
   sortable: {
     order: "date",
     sort: "desc",
@@ -79,11 +91,18 @@ const useTransactions = () => {
     }
   };
 
-  const processTransaction = (transaction: Transaction) => {
+  const processTransaction = async (transaction: Transaction) => {
+    await createTransactionFB(
+      transaction.groupId,
+      transaction.categoryId,
+      transaction.id,
+      { ...transaction }
+    );
     transactions.value.unshift(transaction);
     increaseCategoryExpense(transaction.categoryId, transaction.amount);
+
+    // sum up transaci
     monthlyAllowance.value -= transaction.amount;
-    table.value.totalRecordCount = transactions.value.length;
     description.value = "";
     amount.value = 0;
   };
@@ -129,6 +148,7 @@ const useTransactions = () => {
     description,
     date,
     transactions,
+    isEditTableActive,
   };
 };
 export default useTransactions;

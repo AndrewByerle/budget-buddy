@@ -5,15 +5,17 @@ import Header from "../components/Header.vue";
 import TransactionTable from "../components/transactions/TransactionTable.vue";
 import { createId } from "@/utils/uid";
 import TransactionCard from "../components/transactions/TransactionCard.vue";
+import EditButton from "../components/edit/EditButton.vue";
 
 const {
   processTransaction,
   clearAllTransactions,
-  editTransactions,
   categorySelected,
   amount,
   description,
   date,
+  editTransactions,
+  isEditTableActive,
 } = useTransactions();
 
 const formatDate = (date: Date) => {
@@ -34,12 +36,16 @@ const formatDate = (date: Date) => {
           date: formatDate(date),
           categoryId: categorySelected.id,
           id: createId(),
+          groupId: categorySelected.groupId,
         })
       "
     >
       Add Transaction
     </button>
-    <button @click="editTransactions" class="button">edit</button>
+    <EditButton
+      @handle-press="editTransactions"
+      :is-edit-active="isEditTableActive"
+    />
     <button @click="clearAllTransactions" class="button">clear</button>
   </div>
 
