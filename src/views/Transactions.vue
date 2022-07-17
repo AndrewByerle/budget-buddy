@@ -6,6 +6,7 @@ import TransactionTable from "../components/transactions/TransactionTable.vue";
 import { createId } from "@/utils/uid";
 import TransactionCard from "../components/transactions/TransactionCard.vue";
 import EditButton from "../components/edit/EditButton.vue";
+import { onMounted } from "vue";
 
 const {
   processTransaction,

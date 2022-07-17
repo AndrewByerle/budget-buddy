@@ -42,7 +42,7 @@ export const getFirebaseClient = () => {
 
   // Initialize Firebase
   initializeApp(firebaseConfig);
-  setPersistence(getAuth(), browserLocalPersistence);
+  setPersistence(getAuth(), browserSessionPersistence);
 };
 
 getFirebaseClient();
@@ -63,9 +63,13 @@ const isLoggedIn = computed(async () => {
   return (await getCurrentUser()) !== null;
 });
 
-const getUid = async (): Promise<string> => {
+const getUid = async () => {
   const user = await getCurrentUser();
-  return user.uid;
+  if (user !== null) {
+    return user.uid;
+  } else {
+    return user;
+  }
 };
 
 const db = getFirestore();
@@ -105,19 +109,19 @@ const useFirebase = () => {
     groups.value = temp;
   };
 
-  const getGroupsSnapshot = async () => {
-    const groups = ref<Group[]>([]);
-    const uid = await getUid();
-    const groupsRef = collection(db, "users", uid, "groups");
-    onSnapshot(groupsRef, (snapshot) => {
-      groups.value = snapshot.docs.map((doc) => doc.data() as Group);
-      // snapshot.forEach((doc) => {
-      //   groups.value.push(doc.data() as Group);
-      //   console.log(doc.data());
-      // });
-    });
-    return groups;
-  };
+  // const getGroupsOnSnapshot = async () => {
+  //   const groups = ref<Group[]>([]);
+  //   const uid = await getUid();
+  //   if (uid !== null) {
+  //     const unsub = onSnapshot(
+  //       collection(db, "users", uid, "groups"),
+  //       (snapshot) => {
+  //         groups.value = snapshot.docs.map((doc) => doc.data() as Group);
+  //       }
+  //     );
+  //   }
+  //   return groups;
+  // };
 
   const createCategoryFB = async (
     groupId: string,
@@ -161,7 +165,6 @@ const useFirebase = () => {
         collection(db, "users", uid, "groups", groupId, "categories")
       );
       categorySnapshot.forEach(async (doc) => {
-        console.log(doc.data());
         let expenseTotal = 0;
         const categoryId = doc.data().id;
         const transactionSnapshot = await getDocs(
@@ -182,7 +185,6 @@ const useFirebase = () => {
         const updatedCategory = await updateCategoryFB(groupId, categoryId, {
           expense: expenseTotal,
         } as Category);
-        console.log(updatedCategory.data());
         categories.value.push(updatedCategory.data() as Category);
       });
     });
@@ -255,7 +257,7 @@ const useFirebase = () => {
     getCurrentUser,
     isLoggedIn,
     createTransactionFB,
-    getGroupsSnapshot,
+    // getGroupsOnSnapshot,
   };
 };
 

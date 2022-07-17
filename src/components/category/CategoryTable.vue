@@ -2,6 +2,7 @@
 import LabelRow from "../category/LabelRow.vue";
 import Category from "../category/Category.vue";
 import { useCategories } from "@/composables/overview";
+import { onMounted, watch } from "vue";
 
 const { groupId } = defineProps<{
   groupId: string;

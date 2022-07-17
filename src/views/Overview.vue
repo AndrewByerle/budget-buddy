@@ -3,8 +3,19 @@ import { useGroups } from "../composables/overview";
 import Header1 from "../components/Header.vue";
 import BudgetGroup from "@/components/groups/BudgetGroup.vue";
 import EditButton from "../components/edit/EditButton.vue";
+import { onBeforeUpdate, onMounted, onUnmounted, onUpdated, watch } from "vue";
 
-const { groups, addGroup, toggleEdit, isEditGroupsActive } = useGroups();
+const {
+  groups,
+  addGroup,
+  toggleEdit,
+  isEditGroupsActive,
+  getGroupsAndCategories,
+} = useGroups();
+
+onMounted(async () => {
+  await getGroupsAndCategories();
+});
 </script>
 
 <template>

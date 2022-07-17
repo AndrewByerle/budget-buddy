@@ -1,4 +1,4 @@
-import { computed, ref, type Ref } from "vue";
+import { computed, onMounted, ref, watch, type Ref } from "vue";
 import { createId } from "@/utils/uid";
 import type { Category, Group } from "@/definitions/budgetDefs";
 import { removeItem } from "@/utils/remove";
@@ -13,21 +13,21 @@ const {
   updateCategoryFB,
   getCategoriesFB,
   isLoggedIn,
-  getGroupsSnapshot,
+  // getGroupsOnSnapshot,
 } = useFirebase();
 
-const groups = await getGroupsSnapshot();
-// const groups = ref<Group[]>([]);
-const categories = ref<Category[]>([]);
+const groups = ref<Group[]>([]);
 
-if ((await isLoggedIn.value) !== false) {
-  // await getGroupsFB(groups);
-  await getCategoriesFB(categories);
-}
+const categories = ref<Category[]>([]);
 
 const isEditGroupsActive = ref(false);
 
 const useGroups = () => {
+  const getGroupsAndCategories = async () => {
+    await getCategoriesFB(categories);
+    await getGroupsFB(groups);
+  };
+
   const deleteGroup = (group: Group): Category[] => {
     const removeCategories = ref<Category[]>([]);
     categories.value.forEach((category) => {
@@ -53,13 +53,20 @@ const useGroups = () => {
     };
     //firebase
     createGroupFB(id, data);
-    // groups.value.push(data);
+    groups.value.push(data);
   };
 
   const toggleEdit = () => {
     isEditGroupsActive.value = !isEditGroupsActive.value;
   };
-  return { groups, isEditGroupsActive, toggleEdit, addGroup, deleteGroup };
+  return {
+    groups,
+    getGroupsAndCategories,
+    isEditGroupsActive,
+    toggleEdit,
+    addGroup,
+    deleteGroup,
+  };
 };
 
 const useCategories = () => {
@@ -101,15 +108,6 @@ const useCategories = () => {
       updateCategoryFB(groupId, category.id, data);
     }
   };
-
-  // const getCategoryById = (id: string): Category | null => {
-  //   categories.value.forEach((category) => {
-  //     if (category.id === id) {
-  //       return category;
-  //     }
-  //   });
-  //   return null;
-  // };
 
   return {
     categories,

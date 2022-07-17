@@ -13,10 +13,6 @@ const { createTransactionFB, getTransactionsFB, isLoggedIn, updateCategoryFB } =
 
 const transactions = ref<Transaction[]>([]);
 
-if ((await isLoggedIn.value) !== false) {
-  await getTransactionsFB(transactions);
-}
-
 const transactionsLength = computed(() => {
   return transactions.value.length;
 });
@@ -60,11 +56,15 @@ const tableColumns = ref([
   },
 ]);
 
+const tableRows = computed(() => {
+  return transactions.value;
+});
+
 const table = ref({
   isLoading: false,
   rowClasses: (row: any) => {},
   columns: tableColumns,
-  rows: transactions.value,
+  rows: tableRows,
   totalRecordCount: transactionsLength,
   sortable: {
     order: "date",
@@ -73,6 +73,10 @@ const table = ref({
 });
 
 const useTransactions = () => {
+  const getTransactions = async () => {
+    await getTransactionsFB(transactions);
+  };
+
   const editTransactions = () => {
     isEditTableActive.value = !isEditTableActive.value;
     if (isEditTableActive.value) {
@@ -149,6 +153,7 @@ const useTransactions = () => {
     date,
     transactions,
     isEditTableActive,
+    getTransactions,
   };
 };
 export default useTransactions;
