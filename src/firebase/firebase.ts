@@ -109,20 +109,6 @@ const useFirebase = () => {
     groups.value = temp;
   };
 
-  // const getGroupsOnSnapshot = async () => {
-  //   const groups = ref<Group[]>([]);
-  //   const uid = await getUid();
-  //   if (uid !== null) {
-  //     const unsub = onSnapshot(
-  //       collection(db, "users", uid, "groups"),
-  //       (snapshot) => {
-  //         groups.value = snapshot.docs.map((doc) => doc.data() as Group);
-  //       }
-  //     );
-  //   }
-  //   return groups;
-  // };
-
   const createCategoryFB = async (
     groupId: string,
     categoryId: string,
@@ -238,7 +224,6 @@ const useFirebase = () => {
           )
         );
         transactionSnapshot.forEach((doc) => {
-          // console.log("=> doc", doc.data());
           transactions.value.push(doc.data() as Transaction);
         });
       });
@@ -257,7 +242,6 @@ const useFirebase = () => {
     getCurrentUser,
     isLoggedIn,
     createTransactionFB,
-    // getGroupsOnSnapshot,
   };
 };
 

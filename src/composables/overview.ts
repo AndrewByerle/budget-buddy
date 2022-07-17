@@ -13,7 +13,6 @@ const {
   updateCategoryFB,
   getCategoriesFB,
   isLoggedIn,
-  // getGroupsOnSnapshot,
 } = useFirebase();
 
 const groups = ref<Group[]>([]);
@@ -103,6 +102,7 @@ const useCategories = () => {
   ) => {
     if (category.name !== "") {
       isEditActive.value = false;
+
       //firebase
       const data = { ...category };
       updateCategoryFB(groupId, category.id, data);
