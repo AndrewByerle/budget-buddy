@@ -10,15 +10,9 @@ const emit = defineEmits(["addCategory"]);
       </div>
       <p>Category</p>
     </div>
-    <!-- <div class="labels">
-      <p>Assigned</p>
-    </div> -->
     <div class="labels">
       <p>Expense</p>
     </div>
-    <!-- <div class="labels">
-      <p>Available</p>
-    </div> -->
   </div>
 </template>
 

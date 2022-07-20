@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useCategories } from "@/composables/overview";
+import { useCategories, useGroups } from "@/composables/overview";
 import useTransactions from "@/composables/transactions";
 
-const { categories } = useCategories();
+// const { categories } = useCategories();
+const { groups } = useGroups();
 const { description, categorySelected, amount, date } = useTransactions();
 </script>
 
@@ -23,9 +24,11 @@ const { description, categorySelected, amount, date } = useTransactions();
           <p>Category</p>
           <select v-model="categorySelected" class="select">
             <option :value="undefined">Please select one</option>
-            <option v-for="category in categories" :value="category">
-              {{ category.name }}
-            </option>
+            <template v-for="group in groups">
+              <option v-for="category in group.categories" :value="category">
+                {{ category.name }}
+              </option>
+            </template>
           </select>
         </div>
         <div>

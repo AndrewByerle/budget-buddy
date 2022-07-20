@@ -1,21 +1,14 @@
 import type { Category, Group, Transaction } from "@/definitions/budgetDefs";
 import useFirebase from "@/firebase/firebase";
 import { removeItem } from "@/utils/remove";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useMonthlyAllowance } from "./allowance";
-import { useCategories, useGroups } from "./overview";
+import { useGroups } from "./overview";
 
 const { monthlyAllowance } = useMonthlyAllowance();
-const { clearCategories, increaseCategoryExpense } = useCategories();
-const { deleteGroup } = useGroups();
-const { createTransactionFB, getTransactionsFB, isLoggedIn, updateCategoryFB } =
-  useFirebase();
-
-const transactions = ref<Transaction[]>([]);
-
-const transactionsLength = computed(() => {
-  return transactions.value.length;
-});
+const { deleteGroup, groups } = useGroups();
+// const { createTransactionFB, getTransactionsFB, isLoggedIn, updateCategoryFB } =
+//   useFirebase();
 
 // const transactions = useLocalStorage<Transaction[]>("trasaction_array", []);
 const categorySelected = ref();
@@ -56,16 +49,23 @@ const tableColumns = ref([
   },
 ]);
 
-const tableRows = computed(() => {
-  return transactions.value;
-});
+const allTransactions = computed(() =>
+  groups.value.reduce((acc, group) => {
+    group.categories.forEach((cat) => {
+      acc = [...acc, ...cat.transactions];
+    });
+    return acc;
+  }, [] as Transaction[])
+);
+
+const allTransactionsLength = computed(() => allTransactions.value.length);
 
 const table = ref({
   isLoading: false,
   rowClasses: (row: any) => {},
   columns: tableColumns,
-  rows: tableRows,
-  totalRecordCount: transactionsLength,
+  rows: allTransactions,
+  totalRecordCount: allTransactionsLength,
   sortable: {
     order: "date",
     sort: "desc",
@@ -73,11 +73,7 @@ const table = ref({
 });
 
 const useTransactions = () => {
-  const getTransactions = async () => {
-    await getTransactionsFB(transactions);
-  };
-
-  const editTransactions = () => {
+  const showDeleteColumn = () => {
     isEditTableActive.value = !isEditTableActive.value;
     if (isEditTableActive.value) {
       tableColumns.value.push({
@@ -96,14 +92,22 @@ const useTransactions = () => {
   };
 
   const processTransaction = async (transaction: Transaction) => {
-    await createTransactionFB(
-      transaction.groupId,
-      transaction.categoryId,
-      transaction.id,
-      { ...transaction }
-    );
-    transactions.value.unshift(transaction);
-    increaseCategoryExpense(transaction.categoryId, transaction.amount);
+    // await createTransactionFB(
+    //   transaction.groupId,
+    //   transaction.categoryId,
+    //   transaction.id,
+    //   { ...transaction }
+    // );
+    groups.value.forEach((group) => {
+      group.categories.forEach((cat) => {
+        if (cat.id === categorySelected.value.id) {
+          cat.transactions.unshift(transaction);
+        }
+      });
+    });
+
+    // transactions.value.unshift(transaction);
+    // increaseCategoryExpense(transaction.categoryId, transaction.amount);
 
     // sum up transaci
     monthlyAllowance.value -= transaction.amount;
@@ -112,48 +116,37 @@ const useTransactions = () => {
   };
 
   const clearAllTransactions = () => {
-    clearCategories();
-    transactions.value = [];
-    table.value.rows = transactions.value;
-  };
-
-  const deleteGroupTransactions = (group: Group) => {
-    const removeCateogires = deleteGroup(group);
-    const removeTransactions = ref<Transaction[]>([]);
-    removeCateogires.forEach((category) =>
-      transactions.value.forEach((transaction) => {
-        if (category.id === transaction.categoryId) {
-          removeTransactions.value.push(transaction);
-        }
-      })
-    );
-    removeTransactions.value.forEach((element) =>
-      removeItem(transactions.value, element)
+    groups.value.forEach((group) =>
+      group.categories.forEach((cat) => (cat.transactions = []))
     );
   };
 
-  const rowClicked = (row: any) => {
+  const rowClicked = (row: Transaction) => {
     if (isEditTableActive.value) {
-      increaseCategoryExpense(row.categoryId, -row.amount);
-      monthlyAllowance.value += row.amount;
-      removeItem(transactions.value, row);
+      groups.value.forEach((group) =>
+        group.categories.forEach((cat) => {
+          cat.transactions.forEach((transaction) => {
+            if (transaction.id === row.id) {
+              removeItem(cat.transactions, transaction);
+            }
+          });
+        })
+      );
     }
   };
 
   return {
     processTransaction,
     clearAllTransactions,
-    deleteGroupTransactions,
     table,
     rowClicked,
-    editTransactions,
+    showDeleteColumn,
     categorySelected,
     amount,
     description,
     date,
-    transactions,
     isEditTableActive,
-    getTransactions,
+    // getTransactions,
   };
 };
 export default useTransactions;

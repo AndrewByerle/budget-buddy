@@ -4,12 +4,6 @@ import { onMounted } from "vue";
 import TableLite from "vue3-table-lite/ts";
 
 const { table, rowClicked } = useTransactions();
-
-const { getTransactions } = useTransactions();
-
-onMounted(async () => {
-  await getTransactions();
-});
 </script>
 
 <template>

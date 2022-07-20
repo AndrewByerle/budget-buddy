@@ -4,42 +4,38 @@ import type { Category, Group } from "@/definitions/budgetDefs";
 import { removeItem } from "@/utils/remove";
 import { useMonthlyAllowance } from "./allowance";
 import useFirebase from "@/firebase/firebase";
+import { Transaction } from "@firebase/firestore";
 
 const { monthlyAllowance } = useMonthlyAllowance();
-const {
-  getGroupsFB,
-  createGroupFB,
-  createCategoryFB,
-  updateCategoryFB,
-  getCategoriesFB,
-  isLoggedIn,
-} = useFirebase();
 
 const groups = ref<Group[]>([]);
 
-const categories = ref<Category[]>([]);
-
 const isEditGroupsActive = ref(false);
 
-const useGroups = () => {
-  const getGroupsAndCategories = async () => {
-    await getCategoriesFB(categories);
-    await getGroupsFB(groups);
-  };
+watch(
+  groups,
+  () => {
+    console.log("groups changed!");
+    groups.value.forEach((group) => {
+      group.categories.forEach((category) => {
+        let transactionSum = 0;
+        category.transactions.forEach((transaction) => {
+          transactionSum += transaction.amount;
+        });
+        category.expense = transactionSum;
+      });
+    });
+  },
+  { deep: true }
+);
 
-  const deleteGroup = (group: Group): Category[] => {
-    const removeCategories = ref<Category[]>([]);
-    categories.value.forEach((category) => {
-      if (category.groupId == group.id) {
-        removeCategories.value.push(category);
-        monthlyAllowance.value += category.expense;
+const useGroups = () => {
+  const deleteGroup = (groupId: string) => {
+    groups.value.forEach((group) => {
+      if (group.id === groupId) {
+        removeItem(groups.value, group);
       }
     });
-    removeCategories.value.forEach((element) =>
-      removeItem(categories.value, element)
-    );
-    removeItem(groups.value, group);
-    return removeCategories.value;
   };
 
   const addGroup = () => {
@@ -49,9 +45,10 @@ const useGroups = () => {
       edit: true,
       collapsed: false,
       id: id,
+      categories: [],
     };
     //firebase
-    createGroupFB(id, data);
+    // createGroupFB(id, data);
     groups.value.push(data);
   };
 
@@ -60,7 +57,6 @@ const useGroups = () => {
   };
   return {
     groups,
-    getGroupsAndCategories,
     isEditGroupsActive,
     toggleEdit,
     addGroup,
@@ -69,51 +65,30 @@ const useGroups = () => {
 };
 
 const useCategories = () => {
-  const addCategory = (groupId: string) => {
+  const addCategory = (categories: Category[]) => {
     const id = createId();
     const data = {
       name: "Category",
       expense: 0,
-      groupId: groupId,
       id: id,
+      transactions: [],
     };
     //firebase
-    createCategoryFB(groupId, id, data);
-    categories.value.push(data);
+    // createCategoryFB(groupId, id, data);
+    categories.push(data);
   };
 
-  const increaseCategoryExpense = (id: string, value: number) => {
-    categories.value.forEach((category) => {
-      if (category.id === id) {
-        category.expense += value;
-      }
-    });
-  };
-  const clearCategories = () => {
-    categories.value.forEach((category) => {
-      monthlyAllowance.value += category.expense;
-      category.expense = 0;
-    });
-  };
-  const updateCategory = (
-    category: Category,
-    isEditActive: Ref<boolean>,
-    groupId: string
-  ) => {
+  const updateCategory = (category: Category, isEditActive: Ref<boolean>) => {
     if (category.name !== "") {
       isEditActive.value = false;
-
       //firebase
       const data = { ...category };
-      updateCategoryFB(groupId, category.id, data);
+      // updateCategoryFB(groupId, category.id, data);
     }
   };
 
   return {
-    categories,
-    clearCategories,
     addCategory,
-    increaseCategoryExpense,
     updateCategory,
   };
 };

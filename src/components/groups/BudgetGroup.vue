@@ -2,7 +2,6 @@
 import { useGroups } from "@/composables/overview";
 import useTransactions from "@/composables/transactions";
 import type { Group } from "@/definitions/budgetDefs";
-import useFirebase from "@/firebase/firebase";
 import CategoryTable from "../category/CategoryTable.vue";
 
 const { group } = defineProps<{
@@ -12,16 +11,14 @@ const { group } = defineProps<{
 const vFocus = {
   mounted: (el: any) => el.focus(),
 };
-const { isEditGroupsActive } = useGroups();
-const { deleteGroupTransactions } = useTransactions();
-const { updateGroupFB } = useFirebase();
+const { isEditGroupsActive, deleteGroup } = useGroups();
 
 const handleGroupInput = () => {
   if (group.name !== "") {
     group.edit = false;
     // firebase, update group name
-    const data = { ...group, name: group.name };
-    updateGroupFB(group.id, data);
+    // const data = { ...group, name: group.name };
+    // updateGroupFB(group.id, data);
   }
 };
 </script>
@@ -43,7 +40,7 @@ const handleGroupInput = () => {
       <button
         v-if="isEditGroupsActive"
         class="collapse-btn"
-        @click="deleteGroupTransactions(group)"
+        @click="deleteGroup(group.id)"
       >
         <font-awesome-icon icon="fa-solid fa-xmark" class="x-icon group-icon" />
       </button>
@@ -60,7 +57,7 @@ const handleGroupInput = () => {
       </button>
     </div>
     <div v-if="!group.collapsed">
-      <CategoryTable :group-id="group.id" />
+      <CategoryTable :group="group" />
     </div>
   </div>
 </template>

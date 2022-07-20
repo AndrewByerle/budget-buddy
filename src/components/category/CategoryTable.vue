@@ -3,20 +3,19 @@ import LabelRow from "../category/LabelRow.vue";
 import Category from "../category/Category.vue";
 import { useCategories } from "@/composables/overview";
 import { onMounted, watch } from "vue";
+import type { Group } from "@/definitions/budgetDefs";
 
-const { groupId } = defineProps<{
-  groupId: string;
+defineProps<{
+  group: Group;
 }>();
-const { categories, addCategory } = useCategories();
+const { addCategory } = useCategories();
 </script>
 
 <template>
   <div class="wrapper">
-    <LabelRow @add-category="addCategory(groupId)" />
-    <template v-for="category in categories">
-      <div v-if="category.groupId === groupId">
-        <Category :category-info="category" :group-id="groupId" />
-      </div>
+    <LabelRow @add-category="addCategory(group.categories)" />
+    <template v-for="category in group.categories">
+      <Category :category-info="category" />
     </template>
   </div>
 </template>

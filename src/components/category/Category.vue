@@ -4,9 +4,8 @@ import { useCategories } from "@/composables/overview";
 import type { Category } from "@/definitions/budgetDefs";
 import { ref } from "vue";
 
-const { categoryInfo, groupId } = defineProps<{
+const { categoryInfo } = defineProps<{
   categoryInfo: Category;
-  groupId: string;
 }>();
 
 const { updateCategory } = useCategories();
@@ -14,7 +13,7 @@ const { updateCategory } = useCategories();
 const isEditActive = ref(false);
 
 const handleCategoryInput = () => {
-  updateCategory(categoryInfo, isEditActive, groupId);
+  updateCategory(categoryInfo, isEditActive);
 };
 </script>
 

@@ -10,12 +10,12 @@ const {
   addGroup,
   toggleEdit,
   isEditGroupsActive,
-  getGroupsAndCategories,
+  // getGroupsAndCategories,
 } = useGroups();
 
-onMounted(async () => {
-  await getGroupsAndCategories();
-});
+// onMounted(async () => {
+//   await getGroupsAndCategories();
+// });
 </script>
 
 <template>

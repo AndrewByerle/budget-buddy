@@ -3,21 +3,20 @@ export type Group = {
   edit: boolean;
   collapsed: boolean;
   id: string;
+  categories: Category[];
 };
 
 export type Category = {
   name: string;
   expense: number;
-  groupId: string;
   id: string;
+  transactions: Transaction[];
 };
 
 export type Transaction = {
   description: string;
-  categoryName: string;
   date: string;
   amount: number;
-  groupId: string;
-  categoryId: string;
   id: string;
+  categoryName: string;
 };
