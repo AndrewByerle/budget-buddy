@@ -2,11 +2,9 @@ import type { Category, Group, Transaction } from "@/definitions/budgetDefs";
 import useFirebase from "@/firebase/firebase";
 import { removeItem } from "@/utils/remove";
 import { computed, ref, watch } from "vue";
-import { useMonthlyAllowance } from "./allowance";
 import { useGroups } from "./overview";
 
-const { monthlyAllowance } = useMonthlyAllowance();
-const { deleteGroup, groups } = useGroups();
+const { groups } = useGroups();
 // const { createTransactionFB, getTransactionsFB, isLoggedIn, updateCategoryFB } =
 //   useFirebase();
 
@@ -92,12 +90,6 @@ const useTransactions = () => {
   };
 
   const processTransaction = async (transaction: Transaction) => {
-    // await createTransactionFB(
-    //   transaction.groupId,
-    //   transaction.categoryId,
-    //   transaction.id,
-    //   { ...transaction }
-    // );
     groups.value.forEach((group) => {
       group.categories.forEach((cat) => {
         if (cat.id === categorySelected.value.id) {
@@ -106,11 +98,6 @@ const useTransactions = () => {
       });
     });
 
-    // transactions.value.unshift(transaction);
-    // increaseCategoryExpense(transaction.categoryId, transaction.amount);
-
-    // sum up transaci
-    monthlyAllowance.value -= transaction.amount;
     description.value = "";
     amount.value = 0;
   };

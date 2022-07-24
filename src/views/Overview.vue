@@ -3,7 +3,6 @@ import { useGroups } from "../composables/overview";
 import Header1 from "../components/Header.vue";
 import BudgetGroup from "@/components/groups/BudgetGroup.vue";
 import EditButton from "../components/edit/EditButton.vue";
-import { onBeforeUpdate, onMounted, onUnmounted, onUpdated, watch } from "vue";
 
 const {
   groups,
@@ -19,19 +18,17 @@ const {
 </script>
 
 <template>
-  <div>
-    <Header1 />
-    <div class="button-row">
-      <button class="button" @click="addGroup">Add Group</button>
-      <EditButton
-        @handle-press="toggleEdit"
-        :is-edit-active="isEditGroupsActive"
-      />
-    </div>
-    <template v-for="group in groups">
-      <BudgetGroup :group="group" />
-    </template>
+  <Header1 />
+  <div class="button-row">
+    <button class="button" @click="addGroup">Add Group</button>
+    <EditButton
+      @handle-press="toggleEdit"
+      :is-edit-active="isEditGroupsActive"
+    />
   </div>
+  <template v-for="group in groups">
+    <BudgetGroup :group="group" />
+  </template>
 </template>
 
 <style>

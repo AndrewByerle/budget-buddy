@@ -1,24 +1,21 @@
 <script setup lang="ts">
-import { useMonthlyAllowance } from "@/composables/allowance";
+import { useAllowance } from "@/composables/allowance";
 import { ref } from "vue";
+import ProfileCard from "./profile/ProfileCard.vue";
+import ProfileIcon from "./profile/ProfileIcon.vue";
 
 const month = new Date().toLocaleString("en-US", { month: "long" });
-const { monthlyAllowance } = useMonthlyAllowance();
-const isEditActive = ref(false);
+const { remaining } = useAllowance();
 </script>
 
 <template>
+  <ProfileCard />
+  <ProfileIcon />
   <div class="header">
     <h1>{{ month }}</h1>
     <div class="monthly-allowance">
-      <input
-        type="number"
-        v-if="isEditActive"
-        v-model="monthlyAllowance"
-        @keyup.enter="isEditActive = false"
-      />
-      <div v-else>
-        <p @click="isEditActive = true">${{ monthlyAllowance }}</p>
+      <div>
+        <p>${{ remaining }}</p>
       </div>
       <h3>Remaining</h3>
     </div>

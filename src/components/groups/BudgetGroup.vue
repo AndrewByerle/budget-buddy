@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useGroups } from "@/composables/overview";
-import useTransactions from "@/composables/transactions";
 import type { Group } from "@/definitions/budgetDefs";
 import CategoryTable from "../category/CategoryTable.vue";
 
@@ -74,7 +73,7 @@ const handleGroupInput = () => {
 }
 .rotate-180 {
   transform: rotate(180deg);
-  transition: 0.2s linear;
+  /* transition: 0.2s linear; */
 }
 .collapsed {
   transition: 0.2s ease;

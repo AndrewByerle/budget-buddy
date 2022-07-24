@@ -2,11 +2,9 @@ import { computed, onMounted, ref, watch, type Ref } from "vue";
 import { createId } from "@/utils/uid";
 import type { Category, Group } from "@/definitions/budgetDefs";
 import { removeItem } from "@/utils/remove";
-import { useMonthlyAllowance } from "./allowance";
-import useFirebase from "@/firebase/firebase";
-import { Transaction } from "@firebase/firestore";
+import { useAllowance } from "./allowance";
 
-const { monthlyAllowance } = useMonthlyAllowance();
+const { monthlyAllowance, remaining } = useAllowance();
 
 const groups = ref<Group[]>([]);
 
@@ -15,19 +13,33 @@ const isEditGroupsActive = ref(false);
 watch(
   groups,
   () => {
-    console.log("groups changed!");
-    groups.value.forEach((group) => {
-      group.categories.forEach((category) => {
-        let transactionSum = 0;
-        category.transactions.forEach((transaction) => {
-          transactionSum += transaction.amount;
+    remaining.value =
+      monthlyAllowance.value -
+      groups.value.reduce((acc, group) => {
+        group.categories.forEach((category) => {
+          let transactionSum = 0;
+          category.transactions.forEach((transaction) => {
+            transactionSum += transaction.amount;
+          });
+          category.expense = transactionSum;
+          acc += category.expense;
         });
-        category.expense = transactionSum;
-      });
-    });
+        return acc;
+      }, 0);
   },
   { deep: true }
 );
+
+watch(monthlyAllowance, () => {
+  remaining.value =
+    monthlyAllowance.value -
+    groups.value.reduce((acc, group) => {
+      group.categories.forEach((category) => {
+        acc += category.expense;
+      });
+      return acc;
+    }, 0);
+});
 
 const useGroups = () => {
   const deleteGroup = (groupId: string) => {
@@ -68,7 +80,7 @@ const useCategories = () => {
   const addCategory = (categories: Category[]) => {
     const id = createId();
     const data = {
-      name: "Category",
+      name: "Edit",
       expense: 0,
       id: id,
       transactions: [],

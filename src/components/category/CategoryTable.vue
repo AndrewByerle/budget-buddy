@@ -20,7 +20,7 @@ const { addCategory } = useCategories();
   </div>
 </template>
 
-<style>
+<style scoped>
 .wrapper {
   margin: 3%;
 }

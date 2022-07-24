@@ -26,23 +26,49 @@ const register = async () => {
 </script>
 
 <template>
-  <h1>Create an Account</h1>
-  <label for="email"><b>Email</b></label>
-  <input
-    type="text"
-    placeholder="Enter Email"
-    name="email"
-    v-model="email"
-    required
-  />
-
-  <label for="password"><b>Password</b></label>
-  <input
-    type="password"
-    placeholder="Enter Password"
-    name="password"
-    v-model="password"
-    required
-  />
-  <button @click="register">submit</button>
+  <div class="center">
+    <div class="column">
+      <h1>Create an Account</h1>
+      <div class="row">
+        <label for="email"><b>Email</b></label>
+        <input
+          type="text"
+          placeholder="Enter Email"
+          name="email"
+          v-model="email"
+          required
+        />
+      </div>
+      <div class="row">
+        <label for="password"><b>Password</b></label>
+        <input
+          type="password"
+          placeholder="Enter Password"
+          name="password"
+          v-model="password"
+          required
+        />
+      </div>
+      <button @click="register" class="button">submit</button>
+      <p>Already have an account? <a href="/login">Log In</a></p>
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 350px;
+}
+.row {
+  display: flex;
+  gap: 10px;
+}
+</style>
