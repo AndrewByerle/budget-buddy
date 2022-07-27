@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import {
+  addDoc,
   collection,
   getDocFromCache,
   getDocs,
@@ -47,6 +48,10 @@ export const getFirebaseClient = () => {
 
 getFirebaseClient();
 
+const isLoggedIn = computed(async () => {
+  return (await getCurrentUser()) !== null;
+});
+
 const getCurrentUser = async (): Promise<any> => {
   return new Promise((resolve, reject) => {
     const removeListener = onAuthStateChanged(
@@ -58,10 +63,6 @@ const getCurrentUser = async (): Promise<any> => {
     );
   });
 };
-
-const isLoggedIn = computed(async () => {
-  return (await getCurrentUser()) !== null;
-});
 
 const getUid = async () => {
   const user = await getCurrentUser();
@@ -81,9 +82,9 @@ const useFirebase = () => {
     });
   };
 
-  const createGroupFB = async (id: string, data: Object) => {
+  const setGroupsFB = async (data: Object) => {
     const uid = await getUid();
-    setDoc(doc(db, "users", uid, "groups", id), {
+    setDoc(doc(db, "users", uid), {
       ...data,
     });
   };
@@ -109,139 +110,13 @@ const useFirebase = () => {
     groups.value = temp;
   };
 
-  const createCategoryFB = async (
-    groupId: string,
-    categoryId: string,
-    data: Object
-  ) => {
-    const uid = await getUid();
-    setDoc(doc(db, "users", uid, "groups", groupId, "categories", categoryId), {
-      ...data,
-    });
-  };
-
-  const updateCategoryFB = async (
-    groupId: string,
-    categoryId: string,
-    data: Category
-  ) => {
-    const uid = await getUid();
-    const docRef = doc(
-      db,
-      "users",
-      uid,
-      "groups",
-      groupId,
-      "categories",
-      categoryId
-    );
-    await updateDoc(docRef, {
-      ...data,
-    });
-    return getDoc(docRef);
-  };
-
-  const getCategoriesFB = async (categories: Ref<Category[]>) => {
-    const uid = await getUid();
-    categories.value = [];
-    const groupSnapshot = await getDocs(collection(db, "users", uid, "groups"));
-    groupSnapshot.forEach(async (doc) => {
-      const groupId = doc.data().id;
-      const categorySnapshot = await getDocs(
-        collection(db, "users", uid, "groups", groupId, "categories")
-      );
-      categorySnapshot.forEach(async (doc) => {
-        let expenseTotal = 0;
-        const categoryId = doc.data().id;
-        const transactionSnapshot = await getDocs(
-          collection(
-            db,
-            "users",
-            uid,
-            "groups",
-            groupId,
-            "categories",
-            categoryId,
-            "transactions"
-          )
-        );
-        transactionSnapshot.forEach((doc) => {
-          expenseTotal += doc.data().amount;
-        });
-        const updatedCategory = await updateCategoryFB(groupId, categoryId, {
-          expense: expenseTotal,
-        } as Category);
-        categories.value.push(updatedCategory.data() as Category);
-      });
-    });
-  };
-
-  const createTransactionFB = async (
-    groupId: string,
-    categoryId: string,
-    transactionId: string,
-    data: Transaction
-  ) => {
-    const uid = await getUid();
-    setDoc(
-      doc(
-        db,
-        "users",
-        uid,
-        "groups",
-        groupId,
-        "categories",
-        categoryId,
-        "transactions",
-        transactionId
-      ),
-      {
-        ...data,
-      }
-    );
-  };
-
-  const getTransactionsFB = async (transactions: Ref<Transaction[]>) => {
-    const uid = await getUid();
-    transactions.value = [];
-    const groupSnapshot = await getDocs(collection(db, "users", uid, "groups"));
-    groupSnapshot.forEach(async (doc) => {
-      const groupId = doc.data().id;
-      const categorySnapshot = await getDocs(
-        collection(db, "users", uid, "groups", groupId, "categories")
-      );
-      categorySnapshot.forEach(async (doc) => {
-        const transactionSnapshot = await getDocs(
-          collection(
-            db,
-            "users",
-            uid,
-            "groups",
-            groupId,
-            "categories",
-            doc.data().id,
-            "transactions"
-          )
-        );
-        transactionSnapshot.forEach((doc) => {
-          transactions.value.push(doc.data() as Transaction);
-        });
-      });
-    });
-  };
-
   return {
     createUserFB,
-    createGroupFB,
+    setGroupsFB,
     updateGroupFB,
     getGroupsFB,
-    getTransactionsFB,
-    createCategoryFB,
-    updateCategoryFB,
-    getCategoriesFB,
     getCurrentUser,
     isLoggedIn,
-    createTransactionFB,
   };
 };
 

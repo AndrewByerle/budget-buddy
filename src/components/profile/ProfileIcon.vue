@@ -16,6 +16,7 @@ const { toggleProfile } = useProfile();
   background: inherit;
   right: 0;
   position: absolute;
+  z-index: 2;
 }
 
 .profile-icon {

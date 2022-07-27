@@ -73,7 +73,7 @@ const handleGroupInput = () => {
 }
 .rotate-180 {
   transform: rotate(180deg);
-  /* transition: 0.2s linear; */
+  z-index: 0.1;
 }
 .collapsed {
   transition: 0.2s ease;
@@ -86,7 +86,6 @@ const handleGroupInput = () => {
   display: flex;
   justify-content: space-between;
   padding: 1%;
-  /* transition: 0.2s ease; */
 }
 .budget-group {
   background-color: white;
