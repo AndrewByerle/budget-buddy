@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useGroups } from "@/composables/overview";
 import type { Group } from "@/definitions/budgetDefs";
+import { onMounted, ref } from "vue";
 import CategoryTable from "../category/CategoryTable.vue";
 
 const { group } = defineProps<{
@@ -11,13 +12,14 @@ const vFocus = {
   mounted: (el: any) => el.focus(),
 };
 const { isEditGroupsActive, deleteGroup } = useGroups();
+const inputText = ref("Edit");
 
 const handleGroupInput = () => {
-  if (group.name !== "") {
+  if (inputText.value !== "") {
     group.edit = false;
-    // firebase, update group name
-    // const data = { ...group, name: group.name };
-    // updateGroupFB(group.id, data);
+    if (group.name !== inputText.value) {
+      group.name = inputText.value;
+    }
   }
 };
 </script>
@@ -28,7 +30,7 @@ const handleGroupInput = () => {
       <input
         v-if="group.edit"
         v-focus
-        v-model="group.name"
+        v-model="inputText"
         @keyup.enter="handleGroupInput"
       />
       <div v-else>

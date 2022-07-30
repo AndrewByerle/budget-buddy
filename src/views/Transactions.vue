@@ -19,6 +19,12 @@ const {
   isEditTableActive,
 } = useTransactions();
 
+const { fetchGroups } = useGroups();
+
+onMounted(() => {
+  fetchGroups();
+});
+
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US");
 };

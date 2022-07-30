@@ -2,7 +2,8 @@
 <script setup lang="ts">
 import { useCategories } from "@/composables/overview";
 import type { Category } from "@/definitions/budgetDefs";
-import { ref } from "vue";
+import { CategoryScale } from "chart.js";
+import { onMounted, ref } from "vue";
 
 const { categoryInfo } = defineProps<{
   categoryInfo: Category;
@@ -11,9 +12,11 @@ const { categoryInfo } = defineProps<{
 const { updateCategory } = useCategories();
 
 const isEditActive = ref(false);
+const vModel = ref("edit");
 
 const handleCategoryInput = () => {
   updateCategory(categoryInfo, isEditActive);
+  categoryInfo.name = vModel.value;
 };
 </script>
 
@@ -22,7 +25,7 @@ const handleCategoryInput = () => {
     <div class="item">
       <input
         v-if="isEditActive"
-        v-model="categoryInfo.name"
+        v-model="vModel"
         @keyup.enter="handleCategoryInput"
       />
       <div v-else>
@@ -41,7 +44,6 @@ const handleCategoryInput = () => {
 .table-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* 1fr 1fr; */
 }
 .item {
   background-color: rgb(255, 255, 255);

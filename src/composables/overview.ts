@@ -5,16 +5,18 @@ import { removeItem } from "@/utils/remove";
 import { useAllowance } from "./allowance";
 import useFirebase from "@/firebase/firebase";
 
+const { updateGroupsFB, getData, updateMonthlyAllowance } = useFirebase();
 const { monthlyAllowance, remaining } = useAllowance();
-const { setGroupsFB } = useFirebase();
 
 const groups = ref<Group[]>([]);
 
 const isEditGroupsActive = ref(false);
+const groupsUpdated = ref(false);
 
 watch(
-  [groups, monthlyAllowance],
+  groups,
   () => {
+    console.log("Watch hook fired!");
     remaining.value =
       monthlyAllowance.value -
       groups.value.reduce((acc, group) => {
@@ -28,22 +30,37 @@ watch(
         });
         return acc;
       }, 0);
+    // firebase
+    updateGroupsFB(groups.value);
   },
   { deep: true }
 );
 
-// watch(monthlyAllowance, () => {
-//   remaining.value =
-//     monthlyAllowance.value -
-//     groups.value.reduce((acc, group) => {
-//       group.categories.forEach((category) => {
-//         acc += category.expense;
-//       });
-//       return acc;
-//     }, 0);
-// });
+watch(monthlyAllowance, () => {
+  console.log("Watch hook fired!");
+  remaining.value =
+    monthlyAllowance.value -
+    groups.value.reduce((acc, group) => {
+      group.categories.forEach((category) => {
+        acc += category.expense;
+      });
+      return acc;
+    }, 0);
+  // firebase
+  updateMonthlyAllowance(monthlyAllowance.value);
+});
 
 const useGroups = () => {
+  const fetchGroups = async () => {
+    // rename to fetchData
+    if (!groupsUpdated.value) {
+      const data = await getData();
+      groups.value = data.groups;
+      monthlyAllowance.value = data.monthlyAllowance;
+      groupsUpdated.value = true;
+    }
+  };
+
   const deleteGroup = (groupId: string) => {
     groups.value.forEach((group) => {
       if (group.id === groupId) {
@@ -61,8 +78,6 @@ const useGroups = () => {
       id: id,
       categories: [],
     };
-    //firebase
-    setGroupsFB({ groups: groups.value });
     groups.value.push(data);
   };
 
@@ -75,6 +90,7 @@ const useGroups = () => {
     toggleEdit,
     addGroup,
     deleteGroup,
+    fetchGroups,
   };
 };
 
@@ -87,17 +103,12 @@ const useCategories = () => {
       id: id,
       transactions: [],
     };
-    //firebase
-    // createCategoryFB(groupId, id, data);
     categories.push(data);
   };
 
   const updateCategory = (category: Category, isEditActive: Ref<boolean>) => {
     if (category.name !== "") {
       isEditActive.value = false;
-      //firebase
-      const data = { ...category };
-      // updateCategoryFB(groupId, category.id, data);
     }
   };
 

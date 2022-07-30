@@ -27,7 +27,6 @@ import {
 
 import type { Ref } from "vue";
 import { computed, ref } from "@vue/reactivity";
-import { faDoorClosed } from "@fortawesome/free-solid-svg-icons";
 export const getFirebaseClient = () => {
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -79,42 +78,45 @@ const useFirebase = () => {
   const createUserFB = (data: Object, id: string) => {
     setDoc(doc(db, "users", id), {
       ...data,
+      monthlyAllowance: 0,
     });
   };
 
-  const setGroupsFB = async (data: Object) => {
-    const uid = await getUid();
-    setDoc(doc(db, "users", uid), {
-      ...data,
-    });
-  };
-
-  const updateGroupFB = async (id: string, data: Group) => {
+  const updateGroupsFB = async (groups: Group[]) => {
     try {
       const uid = await getUid();
-      await updateDoc(doc(db, "users", uid, "groups", id), {
-        ...data,
+      await updateDoc(doc(db, "users", uid), {
+        groups: groups,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const updateMonthlyAllowance = async (monthlyAllowance: number) => {
+    try {
+      const uid = await getUid();
+      await updateDoc(doc(db, "users", uid), {
+        monthlyAllowance: monthlyAllowance,
       });
     } catch (e) {
       console.log(e);
     }
   };
 
-  const getGroupsFB = async (groups: Ref<Group[]>) => {
+  const getData = async () => {
     const uid = await getUid();
-    const querySnapshot = await getDocs(collection(db, "users", uid, "groups"));
-    const temp: Group[] = [];
-    querySnapshot.forEach((doc) => {
-      temp.push(doc.data() as Group);
-    });
-    groups.value = temp;
+    const docSnapshot = await getDoc(doc(db, "users", uid));
+    return {
+      groups: docSnapshot.data()?.groups,
+      monthlyAllowance: docSnapshot.data()?.monthlyAllowance,
+    };
   };
 
   return {
     createUserFB,
-    setGroupsFB,
-    updateGroupFB,
-    getGroupsFB,
+    updateGroupsFB,
+    updateMonthlyAllowance,
+    getData,
     getCurrentUser,
     isLoggedIn,
   };

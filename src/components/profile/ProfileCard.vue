@@ -1,13 +1,22 @@
 <script setup lang="ts">
 import { useAllowance } from "@/composables/allowance";
-import { ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import useProfile from "./state";
 import { getAuth, signOut } from "firebase/auth";
 import { useRouter } from "vue-router";
+import { useGroups } from "@/composables/overview";
 
 const { showProfile } = useProfile();
 const { monthlyAllowance } = useAllowance();
 const router = useRouter();
+const { fetchGroups } = useGroups();
+
+const vModel = ref(0);
+
+onMounted(async () => {
+  await fetchGroups();
+  vModel.value = monthlyAllowance.value;
+});
 
 const logOut = () => {
   const auth = getAuth();
@@ -19,6 +28,11 @@ const logOut = () => {
     .catch((error) => {
       console.log(error);
     });
+};
+
+const handleAllowanceChange = () => {
+  console.log(vModel.value);
+  monthlyAllowance.value = vModel.value;
 };
 </script>
 
@@ -32,7 +46,11 @@ const logOut = () => {
       </div>
       <div class="profile-item">
         <p>Monthly Allowance</p>
-        <input v-model="monthlyAllowance" />
+        <input
+          v-model="vModel"
+          type="number"
+          @keyup.enter="handleAllowanceChange"
+        />
       </div>
       <button class="button" @click="logOut">log out</button>
     </div>
