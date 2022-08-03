@@ -11,11 +11,8 @@ const { monthlyAllowance } = useAllowance();
 const router = useRouter();
 const { fetchGroups } = useGroups();
 
-const vModel = ref(0);
-
 onMounted(async () => {
   await fetchGroups();
-  vModel.value = monthlyAllowance.value;
 });
 
 const logOut = () => {
@@ -29,11 +26,6 @@ const logOut = () => {
       console.log(error);
     });
 };
-
-const handleAllowanceChange = () => {
-  console.log(vModel.value);
-  monthlyAllowance.value = vModel.value;
-};
 </script>
 
 <template>
@@ -46,11 +38,7 @@ const handleAllowanceChange = () => {
       </div>
       <div class="profile-item">
         <p>Monthly Allowance</p>
-        <input
-          v-model="vModel"
-          type="number"
-          @keyup.enter="handleAllowanceChange"
-        />
+        <input v-model.lazy="monthlyAllowance" type="number" />
       </div>
       <button class="button" @click="logOut">log out</button>
     </div>

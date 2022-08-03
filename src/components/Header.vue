@@ -28,6 +28,7 @@ const { remaining } = useAllowance();
   justify-content: space-between;
   color: darkslategray;
   height: 100%;
+  margin: 3%;
 }
 .monthly-allowance {
   display: flex;

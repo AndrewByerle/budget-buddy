@@ -51,7 +51,7 @@ const formatDate = (date: Date) => {
       @handle-press="showDeleteColumn"
       :is-edit-active="isEditTableActive"
     />
-    <button @click="clearAllTransactions" class="button">clear</button>
+    <!-- <button @click="clearAllTransactions" class="button">clear</button> -->
   </div>
 
   <TransactionCard />

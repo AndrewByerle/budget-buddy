@@ -17,19 +17,22 @@ watch(
   groups,
   () => {
     // console.log("Watch fired!");
-    remaining.value =
-      monthlyAllowance.value -
-      groups.value.reduce((acc, group) => {
-        group.categories.forEach((category) => {
-          let transactionSum = 0;
-          category.transactions.forEach((transaction) => {
-            transactionSum += transaction.amount;
+    remaining.value = parseFloat(
+      (
+        monthlyAllowance.value -
+        groups.value.reduce((acc, group) => {
+          group.categories.forEach((category) => {
+            let transactionSum = 0;
+            category.transactions.forEach((transaction) => {
+              transactionSum += transaction.amount;
+            });
+            category.expense = transactionSum;
+            acc += category.expense;
           });
-          category.expense = transactionSum;
-          acc += category.expense;
-        });
-        return acc;
-      }, 0);
+          return acc;
+        }, 0)
+      ).toFixed(2)
+    );
     // firebase
     updateGroupsFB(groups.value);
   },
