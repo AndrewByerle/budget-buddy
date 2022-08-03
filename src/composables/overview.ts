@@ -16,7 +16,7 @@ const groupsUpdated = ref(false);
 watch(
   groups,
   () => {
-    console.log("Watch hook fired!");
+    // console.log("Watch fired!");
     remaining.value =
       monthlyAllowance.value -
       groups.value.reduce((acc, group) => {

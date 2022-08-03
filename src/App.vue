@@ -24,9 +24,10 @@ button {
   font-family: arial, sans-serif;
   background-color: rgb(230, 239, 247);
 }
-/* @media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  } */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 </style>
