@@ -1,23 +1,13 @@
 <!-- A single row in the category table -->
 <script setup lang="ts">
-import { useCategories } from "@/composables/overview";
 import type { Category } from "@/definitions/budgetDefs";
-import { CategoryScale } from "chart.js";
 import { onMounted, ref } from "vue";
 
-const { categoryInfo } = defineProps<{
-  categoryInfo: Category;
+const { category } = defineProps<{
+  category: Category;
 }>();
 
-const { updateCategory } = useCategories();
-
 const isEditActive = ref(false);
-const vModel = ref("edit");
-
-const handleCategoryInput = () => {
-  updateCategory(categoryInfo, isEditActive);
-  categoryInfo.name = vModel.value;
-};
 </script>
 
 <template>
@@ -25,17 +15,21 @@ const handleCategoryInput = () => {
     <div class="item">
       <input
         v-if="isEditActive"
-        v-model="vModel"
-        @keyup.enter="handleCategoryInput"
+        v-model.lazy="category.name"
+        @keyup.enter="isEditActive = false"
       />
+
+      <div v-else-if="category.name === ``">
+        <p @click="isEditActive = true">Edit</p>
+      </div>
       <div v-else>
         <p @click="isEditActive = true">
-          {{ categoryInfo.name }}
+          {{ category.name }}
         </p>
       </div>
     </div>
     <div class="item">
-      <p>${{ categoryInfo.expense }}</p>
+      <p>${{ category.expense }}</p>
     </div>
   </div>
 </template>

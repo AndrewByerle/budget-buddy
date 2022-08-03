@@ -15,7 +15,7 @@ const { addCategory } = useCategories();
   <div class="wrapper">
     <LabelRow @add-category="addCategory(group.categories)" />
     <template v-for="category in group.categories">
-      <Category :category-info="category" />
+      <Category :category="category" />
     </template>
   </div>
 </template>

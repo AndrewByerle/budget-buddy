@@ -106,15 +106,15 @@ const useCategories = () => {
     categories.push(data);
   };
 
-  const updateCategory = (category: Category, isEditActive: Ref<boolean>) => {
-    if (category.name !== "") {
-      isEditActive.value = false;
-    }
-  };
+  // const updateCategory = (category: Category, isEditActive: Ref<boolean>) => {
+  //   if (category.name !== "") {
+  //     isEditActive.value = false;
+  //   }
+  // };
 
   return {
     addCategory,
-    updateCategory,
+    // updateCategory,
   };
 };
 

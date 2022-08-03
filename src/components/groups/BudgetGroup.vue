@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGroups } from "@/composables/overview";
 import type { Group } from "@/definitions/budgetDefs";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import CategoryTable from "../category/CategoryTable.vue";
 
 const { group } = defineProps<{
@@ -12,29 +12,24 @@ const vFocus = {
   mounted: (el: any) => el.focus(),
 };
 const { isEditGroupsActive, deleteGroup } = useGroups();
-const inputText = ref("Edit");
 
-const handleGroupInput = () => {
-  if (inputText.value !== "") {
-    group.edit = false;
-    if (group.name !== inputText.value) {
-      group.name = inputText.value;
-    }
-  }
-};
+const isEditActive = ref(false);
 </script>
 
 <template>
   <div class="budget-group">
     <div class="group-header">
       <input
-        v-if="group.edit"
+        v-if="isEditActive"
         v-focus
-        v-model="inputText"
-        @keyup.enter="handleGroupInput"
+        v-model.lazy="group.name"
+        @keyup.enter="isEditActive = false"
       />
+      <div v-else-if="group.name === ``">
+        <p @click="isEditActive = true">Edit</p>
+      </div>
       <div v-else>
-        <p @click="group.edit = true">
+        <p @click="isEditActive = true">
           {{ group.name }}
         </p>
       </div>
