@@ -1,14 +1,10 @@
-import type { Category, Group, Transaction } from "@/definitions/budgetDefs";
-import useFirebase from "@/firebase/firebase";
+import type { Transaction } from "@/definitions/budgetDefs";
 import { removeItem } from "@/utils/remove";
 import { computed, ref, watch } from "vue";
-import { useGroups } from "./overview";
+import { useBudget } from "./overview";
 
-const { groups } = useGroups();
-// const { createTransactionFB, getTransactionsFB, isLoggedIn, updateCategoryFB } =
-//   useFirebase();
+const { groups } = useBudget();
 
-// const transactions = useLocalStorage<Transaction[]>("trasaction_array", []);
 const categorySelected = ref();
 const amount = ref();
 const description = ref("");
@@ -133,7 +129,6 @@ const useTransactions = () => {
     description,
     date,
     isEditTableActive,
-    // getTransactions,
   };
 };
 export default useTransactions;

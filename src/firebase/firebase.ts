@@ -107,8 +107,7 @@ const useFirebase = () => {
     const uid = await getUid();
     const docSnapshot = await getDoc(doc(db, "users", uid));
     return {
-      groups: docSnapshot.data()?.groups,
-      monthlyAllowance: docSnapshot.data()?.monthlyAllowance,
+      ...docSnapshot?.data(),
     };
   };
 

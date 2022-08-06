@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import LabelRow from "../category/LabelRow.vue";
 import Category from "../category/Category.vue";
-import { useCategories } from "@/composables/overview";
-import { onMounted, watch } from "vue";
 import type { Group } from "@/definitions/budgetDefs";
+import { useBudget } from "@/composables/overview";
 
 defineProps<{
   group: Group;
 }>();
-const { addCategory } = useCategories();
+const { addCategory } = useBudget();
 </script>
 
 <template>

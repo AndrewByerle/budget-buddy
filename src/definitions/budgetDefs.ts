@@ -1,6 +1,5 @@
 export type Group = {
   name: string;
-  edit: boolean;
   collapsed: boolean;
   id: string;
   categories: Category[];

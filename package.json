@@ -23,6 +23,7 @@
     "uuid": "^8.3.2",
     "vue": "^3.2.37",
     "vue-chart-3": "^3.1.8",
+    "vue-month-picker": "^1.6.0",
     "vue-router": "^4.0.16",
     "vue3-table-lite": "^1.2.3"
   },

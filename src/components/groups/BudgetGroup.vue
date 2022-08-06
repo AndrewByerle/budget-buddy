@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useGroups } from "@/composables/overview";
+import { useBudget } from "@/composables/overview";
 import type { Group } from "@/definitions/budgetDefs";
-import { computed, onMounted, ref, watch } from "vue";
+import { ref } from "vue";
 import CategoryTable from "../category/CategoryTable.vue";
 
 const { group } = defineProps<{
@@ -11,7 +11,7 @@ const { group } = defineProps<{
 const vFocus = {
   mounted: (el: any) => el.focus(),
 };
-const { isEditGroupsActive, deleteGroup } = useGroups();
+const { isEditGroupsActive, deleteGroup } = useBudget();
 
 const isEditActive = ref(false);
 </script>

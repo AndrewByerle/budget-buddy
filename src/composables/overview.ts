@@ -1,6 +1,6 @@
-import { computed, onMounted, ref, watch, type Ref } from "vue";
+import { ref, watch } from "vue";
 import { createId } from "@/utils/uid";
-import type { Category, Group } from "@/definitions/budgetDefs";
+import type { Category, Group, Transaction } from "@/definitions/budgetDefs";
 import { removeItem } from "@/utils/remove";
 import { useAllowance } from "./allowance";
 import useFirebase from "@/firebase/firebase";
@@ -16,7 +16,6 @@ const groupsUpdated = ref(false);
 watch(
   groups,
   () => {
-    // console.log("Watch fired!");
     remaining.value = parseFloat(
       (
         monthlyAllowance.value -
@@ -40,7 +39,6 @@ watch(
 );
 
 watch(monthlyAllowance, () => {
-  console.log("Watch hook fired!");
   remaining.value =
     monthlyAllowance.value -
     groups.value.reduce((acc, group) => {
@@ -53,9 +51,8 @@ watch(monthlyAllowance, () => {
   updateMonthlyAllowance(monthlyAllowance.value);
 });
 
-const useGroups = () => {
-  const fetchGroups = async () => {
-    // rename to fetchData
+const useBudget = () => {
+  const fetchData = async () => {
     if (!groupsUpdated.value) {
       const data = await getData();
       groups.value = data.groups;
@@ -76,7 +73,6 @@ const useGroups = () => {
     const id = createId();
     const data = {
       name: "",
-      edit: true,
       collapsed: false,
       id: id,
       categories: [],
@@ -84,20 +80,10 @@ const useGroups = () => {
     groups.value.push(data);
   };
 
-  const toggleEdit = () => {
+  const toggleEditGroups = () => {
     isEditGroupsActive.value = !isEditGroupsActive.value;
   };
-  return {
-    groups,
-    isEditGroupsActive,
-    toggleEdit,
-    addGroup,
-    deleteGroup,
-    fetchGroups,
-  };
-};
 
-const useCategories = () => {
   const addCategory = (categories: Category[]) => {
     const id = createId();
     const data = {
@@ -109,16 +95,15 @@ const useCategories = () => {
     categories.push(data);
   };
 
-  // const updateCategory = (category: Category, isEditActive: Ref<boolean>) => {
-  //   if (category.name !== "") {
-  //     isEditActive.value = false;
-  //   }
-  // };
-
   return {
+    groups,
     addCategory,
-    // updateCategory,
+    isEditGroupsActive,
+    toggleEditGroups,
+    addGroup,
+    deleteGroup,
+    fetchData,
   };
 };
 
-export { useGroups, useCategories };
+export { useBudget };

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useCategories, useGroups } from "@/composables/overview";
 import useTransactions from "@/composables/transactions";
 import Header from "../components/Header.vue";
 import TransactionTable from "../components/transactions/TransactionTable.vue";
@@ -7,6 +6,7 @@ import { createId } from "@/utils/uid";
 import TransactionCard from "../components/transactions/TransactionCard.vue";
 import EditButton from "../components/edit/EditButton.vue";
 import { computed, onMounted } from "vue";
+import { useBudget } from "@/composables/overview";
 
 const {
   processTransaction,
@@ -19,10 +19,10 @@ const {
   isEditTableActive,
 } = useTransactions();
 
-const { fetchGroups } = useGroups();
+const { fetchData } = useBudget();
 
 onMounted(() => {
-  fetchGroups();
+  fetchData();
 });
 
 const formatDate = (date: Date) => {
@@ -51,7 +51,7 @@ const formatDate = (date: Date) => {
       @handle-press="showDeleteColumn"
       :is-edit-active="isEditTableActive"
     />
-    <!-- <button @click="clearAllTransactions" class="button">clear</button> -->
+    <button @click="clearAllTransactions" class="button">clear</button>
   </div>
 
   <TransactionCard />

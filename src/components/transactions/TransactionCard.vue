@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { useCategories, useGroups } from "@/composables/overview";
+import { useBudget } from "@/composables/overview.js";
 import useTransactions from "@/composables/transactions";
 
-// const { categories } = useCategories();
-const { groups } = useGroups();
+const { groups } = useBudget();
 const { description, categorySelected, amount, date } = useTransactions();
 </script>
 

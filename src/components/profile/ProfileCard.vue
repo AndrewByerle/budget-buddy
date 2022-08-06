@@ -4,16 +4,10 @@ import { computed, onMounted, ref } from "vue";
 import useProfile from "./state";
 import { getAuth, signOut } from "firebase/auth";
 import { useRouter } from "vue-router";
-import { useGroups } from "@/composables/overview";
 
 const { showProfile } = useProfile();
 const { monthlyAllowance } = useAllowance();
 const router = useRouter();
-const { fetchGroups } = useGroups();
-
-onMounted(async () => {
-  await fetchGroups();
-});
 
 const logOut = () => {
   const auth = getAuth();

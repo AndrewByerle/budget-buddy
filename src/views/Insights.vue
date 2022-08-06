@@ -7,15 +7,14 @@
 import { DoughnutChart } from "vue-chart-3";
 import { Chart, registerables } from "chart.js";
 import { onMounted, ref } from "vue";
-import { useGroups } from "@/composables/overview";
-import { computed } from "@vue/reactivity";
+import { useBudget } from "@/composables/overview.js";
 
-const { groups, fetchGroups } = useGroups();
+const { groups, fetchData } = useBudget();
 
 const labels = ref<string[]>([]);
 const data = ref<number[]>([]);
 onMounted(async () => {
-  await fetchGroups();
+  await fetchData();
 
   groups.value.forEach((group) =>
     group.categories.forEach((category) => {
