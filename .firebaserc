@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "budget-buddy-12029"
-  }
+    "default": "budget-buddy-12029",
+    "budget-buddy": "budget-buddy-12029"
+  },
+  "targets": {}
 }
