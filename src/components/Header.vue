@@ -14,10 +14,7 @@ const { remaining } = useAllowance();
   <div class="header">
     <h1>{{ month }}</h1>
     <div class="monthly-allowance">
-      <div>
-        <p>${{ remaining }}</p>
-      </div>
-      <h3>Remaining</h3>
+      <p>${{ remaining }}</p>
     </div>
   </div>
 </template>

@@ -27,7 +27,7 @@ button {
 
 html,
 body {
-  max-width: 100%;
+  width: 100%;
   overflow-x: hidden;
 }
 @media only screen and (max-device-width: 480px) {
