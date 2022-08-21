@@ -30,4 +30,9 @@ body {
   max-width: 100%;
   overflow-x: hidden;
 }
+@media only screen and (max-device-width: 480px) {
+  .router-view {
+    padding-left: 50px;
+  }
+}
 </style>

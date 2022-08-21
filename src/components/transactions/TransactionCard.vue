@@ -9,7 +9,7 @@ const { description, categorySelected, amount, date } = useTransactions();
 <template>
   <div class="transaction-card">
     <div class="row-center">
-      <div class="container">
+      <div>
         <div class="row">
           <p>Description</p>
           <input
@@ -52,15 +52,13 @@ const { description, categorySelected, amount, date } = useTransactions();
 
 <style>
 .input {
-  width: 42%;
+  width: 50%;
 }
 
 .select {
-  width: 44%;
+  width: 53%;
 }
-.container {
-  width: 50%;
-}
+
 .row-center {
   margin: 20px;
   border: 1px solid rgb(199, 207, 209);
