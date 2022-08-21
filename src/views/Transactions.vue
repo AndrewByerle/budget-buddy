@@ -61,12 +61,13 @@ const formatDate = (date: Date) => {
 </template>
 
 <style scoped>
-.button-row {
-  display: flex;
-  justify-content: space-around;
-  gap: 5px;
+@media only screen and (max-device-width: 480px) {
+  .button-row {
+    display: flex;
+    justify-content: space-around;
+    gap: 5px;
+  }
 }
-
 .gap {
   display: flex;
   gap: 10px;
