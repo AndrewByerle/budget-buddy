@@ -8,7 +8,11 @@ const insightsLabel = "Insights";
 
 <template>
   <div class="sidebar">
-    <h1 class="name">Budget Buddy</h1>
+    <h1 class="app-name">Budget Buddy</h1>
+    <h1 class="mobile-app-name">
+      B <br />
+      B
+    </h1>
     <LinkItem to="/" title="Overview" icon="fa-solid fa-house">{{
       overviewLabel
     }}</LinkItem>
@@ -22,6 +26,9 @@ const insightsLabel = "Insights";
 </template>
 
 <style scoped>
+.mobile-app-name {
+  display: none;
+}
 .sidebar {
   color: white;
   height: 100%;
@@ -37,14 +44,19 @@ const insightsLabel = "Insights";
   justify-content: flex-start;
   flex-direction: column;
   text-align: center;
+  transition: 0.5s ease-out;
 }
 
 @media only screen and (max-device-width: 480px) {
   .sidebar {
-    width: 120px;
+    width: 60px;
+    transition: 0.5s ease-in-out;
   }
-  .name {
-    font-size: 5vw;
+  .app-name {
+    display: none;
+  }
+  .mobile-app-name {
+    display: contents;
   }
 }
 </style>
