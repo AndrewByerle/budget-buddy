@@ -1,17 +1,27 @@
 <script setup lang="ts">
 import LinkItem from "./LinkItem.vue";
+
+const overviewLabel = "Overview";
+const transactionsLabel = "Transactions";
+const insightsLabel = "Insights";
 </script>
 
 <template>
   <div class="sidebar">
-    <h1>Budget Buddy</h1>
-    <LinkItem to="/" title="Overview" icon="fa-solid fa-house" />
-    <LinkItem to="/transactions" title="Transactions" icon="fa-solid fa-list" />
-    <LinkItem to="/insights" title="Insights" icon="fa-solid fa-chart-pie" />
+    <h1 class="name">Budget Buddy</h1>
+    <LinkItem to="/" title="Overview" icon="fa-solid fa-house">{{
+      overviewLabel
+    }}</LinkItem>
+    <LinkItem to="/transactions" title="Transactions" icon="fa-solid fa-list">{{
+      transactionsLabel
+    }}</LinkItem>
+    <LinkItem to="/insights" title="Insights" icon="fa-solid fa-chart-pie">
+      {{ insightsLabel }}</LinkItem
+    >
   </div>
 </template>
 
-<style>
+<style scoped>
 .sidebar {
   color: white;
   height: 100%;
@@ -27,5 +37,14 @@ import LinkItem from "./LinkItem.vue";
   justify-content: flex-start;
   flex-direction: column;
   text-align: center;
+}
+
+@media only screen and (max-device-width: 480px) {
+  .sidebar {
+    width: 120px;
+  }
+  .name {
+    font-size: 5vw;
+  }
 }
 </style>

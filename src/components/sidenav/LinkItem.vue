@@ -5,7 +5,7 @@ import { useRouter } from "vue-router";
 
 const { to } = defineProps<{
   to: string;
-  title?: string;
+  // title?: string;
   icon?: string;
 }>();
 
@@ -15,15 +15,24 @@ const isActive = computed(() => to === useRouter().currentRoute.value.path);
 <template>
   <RouterLink :to="to" class="link-text">
     <div class="nav-item" :class="{ on: isActive }">
-      <div>
-        <font-awesome-icon :icon="icon" class="icon" />
-        {{ title }}
+      <div class="row">
+        <div>
+          <font-awesome-icon :icon="icon" class="icon" />
+          <template class="page-name">
+            <slot></slot>
+          </template>
+        </div>
       </div>
     </div>
   </RouterLink>
 </template>
 
 <style>
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
 .on {
   background-color: darkgreen;
 }
@@ -33,7 +42,7 @@ const isActive = computed(() => to === useRouter().currentRoute.value.path);
   font-size: 100%;
   padding-top: 20px;
   display: flex;
-  flex-direction: col;
+  flex-direction: column;
   justify-content: flex-start;
   padding-left: 20px;
   height: 40px;
@@ -54,5 +63,15 @@ const isActive = computed(() => to === useRouter().currentRoute.value.path);
 .icon {
   width: 25px;
   margin-right: 10px;
+}
+.page-name {
+  text-align: center;
+  display: inline;
+}
+
+@media only screen and (max-device-width: 480px) {
+  .page-name {
+    display: none;
+  }
 }
 </style>
