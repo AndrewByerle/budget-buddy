@@ -45,17 +45,30 @@ const formatDate = (date: Date) => {
         })
       "
     >
-      Add Transaction
+      Add
     </button>
-    <EditButton
-      @handle-press="showDeleteColumn"
-      :is-edit-active="isEditTableActive"
-    />
-    <button @click="clearAllTransactions" class="button">clear</button>
+    <div class="gap">
+      <EditButton
+        @handle-press="showDeleteColumn"
+        :is-edit-active="isEditTableActive"
+      />
+      <button @click="clearAllTransactions" class="button">clear</button>
+    </div>
   </div>
 
   <TransactionCard />
   <TransactionTable />
 </template>
 
-<style></style>
+<style scoped>
+.button-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 5px;
+}
+
+.gap {
+  display: flex;
+  gap: 10px;
+}
+</style>
