@@ -49,7 +49,7 @@ const register = async () => {
           required
         />
       </div>
-      <button @click="register" class="button">submit</button>
+      <button @click="register" class="button">Submit</button>
       <p>Already have an account? <a href="/login">Log In</a></p>
     </div>
   </div>
@@ -70,5 +70,9 @@ const register = async () => {
 .row {
   display: flex;
   gap: 10px;
+}
+.button {
+  color: White;
+  background-color: rgb(85, 168, 191);
 }
 </style>

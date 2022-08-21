@@ -22,7 +22,7 @@ const logIn = () => {
 <template>
   <div class="center">
     <div class="column">
-      <h1>Log In</h1>
+      <h1>Login to Account</h1>
       <div class="row">
         <label for="email"><b>Email</b></label>
         <input
@@ -63,6 +63,9 @@ const logIn = () => {
 }
 .row {
   display: flex;
-  gap: 10px;
+}
+.button {
+  color: White;
+  background-color: rgb(85, 168, 191);
 }
 </style>

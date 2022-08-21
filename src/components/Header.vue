@@ -22,7 +22,8 @@ const { remaining } = useAllowance();
 <style>
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  gap: 30%;
   color: darkslategray;
   height: 100%;
   margin: 3%;
