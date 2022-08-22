@@ -19,7 +19,7 @@ const { remaining } = useAllowance();
   </div>
 </template>
 
-<style>
+<style scoped>
 .header {
   display: flex;
   justify-content: space-around;

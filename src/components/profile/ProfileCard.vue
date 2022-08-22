@@ -4,9 +4,11 @@ import { computed, onMounted, ref } from "vue";
 import useProfile from "./state";
 import { getAuth, signOut } from "firebase/auth";
 import { useRouter } from "vue-router";
+import useFirebase from "@/firebase/firebase";
 
 const { showProfile } = useProfile();
 const { monthlyAllowance } = useAllowance();
+const { getCurrentUser } = useFirebase();
 const router = useRouter();
 
 const logOut = () => {
@@ -20,6 +22,8 @@ const logOut = () => {
       console.log(error);
     });
 };
+let user = ref();
+onMounted(async () => (user.value = await getCurrentUser()));
 </script>
 
 <template>
@@ -28,7 +32,9 @@ const logOut = () => {
       <div></div>
       <div class="profile-item">
         <p>Email</p>
-        <input />
+        <div class="email">
+          {{ user?.email }}
+        </div>
       </div>
       <div class="profile-item">
         <p>Monthly Allowance</p>
@@ -40,6 +46,11 @@ const logOut = () => {
 </template>
 
 <style scoped>
+.email {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 input {
   width: 40%;
 }

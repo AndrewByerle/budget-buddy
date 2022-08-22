@@ -9,15 +9,10 @@ const { description, categorySelected, amount, date } = useTransactions();
 <template>
   <div class="transaction-card">
     <div class="row-center">
-      <div>
+      <div class="card-center">
         <div class="row">
-          <p>Description</p>
-          <input
-            type="string"
-            v-model="description"
-            placeholder="Description"
-            class="input"
-          />
+          <p>Date</p>
+          <Datepicker v-model="date" style="width: 51%"></Datepicker>
         </div>
         <div class="row">
           <p>Category</p>
@@ -42,8 +37,13 @@ const { description, categorySelected, amount, date } = useTransactions();
           </div>
         </div>
         <div class="row">
-          <p>Date</p>
-          <Datepicker v-model="date" style="width: 44%"></Datepicker>
+          <p>Description</p>
+          <input
+            type="string"
+            v-model="description"
+            placeholder="Description"
+            class="input"
+          />
         </div>
       </div>
     </div>
@@ -51,12 +51,15 @@ const { description, categorySelected, amount, date } = useTransactions();
 </template>
 
 <style>
+.card-center {
+  width: 80%;
+}
 .input {
   width: 50%;
 }
 
 .select {
-  width: 53%;
+  width: 51%;
 }
 
 .row-center {
@@ -80,5 +83,11 @@ const { description, categorySelected, amount, date } = useTransactions();
   display: flex;
   justify-content: space-between;
   padding: 2%;
+}
+
+@media only screen and (max-device-width: 480px) {
+  .select {
+    width: 53%;
+  }
 }
 </style>

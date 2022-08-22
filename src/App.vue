@@ -16,6 +16,11 @@ getFirebaseClient();
 <style>
 .router-view {
   padding-left: 200px;
+  height: 100%;
+}
+
+#app {
+  margin-top: -0px !important;
 }
 
 body,
@@ -24,7 +29,6 @@ button {
   font-family: arial, sans-serif;
   background-color: rgb(230, 239, 247);
 }
-
 html,
 body {
   width: 100%;
