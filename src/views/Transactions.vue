@@ -21,8 +21,8 @@ const {
 
 const { fetchData } = useBudget();
 
-onMounted(() => {
-  fetchData();
+onMounted(async () => {
+  await fetchData();
 });
 
 const formatDate = (date: Date) => {

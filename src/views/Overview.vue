@@ -5,12 +5,12 @@ import EditButton from "../components/edit/EditButton.vue";
 import { onMounted } from "vue";
 import { useBudget } from "@/composables/overview";
 
+onMounted(async () => {
+  await fetchData();
+});
+
 const { groups, addGroup, toggleEditGroups, isEditGroupsActive, fetchData } =
   useBudget();
-
-onMounted(async () => {
-  fetchData();
-});
 </script>
 
 <template>
