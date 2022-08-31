@@ -41,5 +41,9 @@ body {
   .scrollbar-hidden::-webkit-scrollbar {
     display: none;
   }
+  html,
+  body {
+    -ms-overflow-style: none;
+  }
 }
 </style>
