@@ -38,5 +38,8 @@ body {
   .router-view {
     padding-left: 50px;
   }
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>
