@@ -28,8 +28,7 @@ onMounted(async () => (user.value = await getCurrentUser()));
 
 <template>
   <div class="profile" :class="{ profileUnhidden: showProfile }">
-    <div class="column">
-      <div></div>
+    <div class="hidden" :class="{ column: showProfile }">
       <div class="profile-item">
         <p>Email</p>
         <div class="email">
@@ -46,6 +45,9 @@ onMounted(async () => (user.value = await getCurrentUser()));
 </template>
 
 <style scoped>
+.hidden {
+  display: none;
+}
 .email {
   display: flex;
   justify-content: center;
@@ -69,9 +71,22 @@ input {
   display: flex;
   justify-content: center;
   flex-direction: row;
+  width: 0px;
+  height: 0px;
+  margin-top: -5px;
+  float: right;
+  position: absolute;
+  right: 10px;
+  transition: 1s;
+  background-color: inherit;
+}
+.profileUnhidden {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
   width: 300px;
   height: 500px;
-  margin-right: -315px;
   margin-top: -5px;
   float: right;
   position: absolute;
@@ -81,8 +96,5 @@ input {
   border-radius: 10px;
   background-color: rgb(255, 255, 255);
   z-index: 1;
-}
-.profileUnhidden {
-  margin-right: -10px;
 }
 </style>

@@ -36,14 +36,7 @@ body {
 }
 @media only screen and (max-device-width: 480px) {
   .router-view {
-    padding-left: 50px;
-  }
-  .scrollbar-hidden::-webkit-scrollbar {
-    display: none;
-  }
-  html,
-  body {
-    -ms-overflow-style: none;
+    padding-left: 60px;
   }
 }
 </style>
