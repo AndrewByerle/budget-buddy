@@ -78,6 +78,7 @@ const useFirebase = () => {
   const createUserFB = (data: Object, id: string) => {
     setDoc(doc(db, "users", id), {
       ...data,
+      groups: [],
       monthlyAllowance: 0,
     });
   };
