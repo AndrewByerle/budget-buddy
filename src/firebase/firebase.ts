@@ -104,12 +104,15 @@ const useFirebase = () => {
     }
   };
 
-  const getData = async () => {
+  const getData = async (groups: Ref<Group[]>) => {
     const uid = await getUid();
-    const docSnapshot = await getDoc(doc(db, "users", uid));
-    return {
-      ...docSnapshot?.data(),
-    };
+    // const docSnapshot = await getDoc(doc(db, "users", uid));
+    // return {
+    //   ...docSnapshot?.data(),
+    // };
+    onSnapshot(doc(db, "users", uid), (doc) => {
+      groups.value = doc.data()?.groups;
+    });
   };
 
   return {
