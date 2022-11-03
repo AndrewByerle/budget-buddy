@@ -5,8 +5,8 @@ import EditButton from "../components/edit/EditButton.vue";
 import { onMounted } from "vue";
 import { useBudget } from "@/composables/overview";
 
-onMounted(async () => {
-  await fetchData();
+onMounted(() => {
+  fetchData();
 });
 
 const { groups, addGroup, toggleEditGroups, isEditGroupsActive, fetchData } =

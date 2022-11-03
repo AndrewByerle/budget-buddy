@@ -8,7 +8,7 @@ const { groups } = useBudget();
 const categorySelected = ref();
 const amount = ref();
 const description = ref("");
-const date = ref();
+const date = ref(new Date());
 const isEditTableActive = ref(false);
 
 const tableColumns = ref([
