@@ -30,6 +30,7 @@ watch(groups, () => {
     ).toFixed(2)
   );
 });
+
 watch(
   groups,
   () => {
@@ -53,7 +54,7 @@ watch(monthlyAllowance, () => {
 
 const useBudget = () => {
   const fetchData = async () => {
-    await getData(groups);
+    await getData(groups, monthlyAllowance);
   };
 
   const deleteGroup = (groupId: string) => {
@@ -73,7 +74,6 @@ const useBudget = () => {
       categories: [],
     };
     groups.value.push(data);
-    // updateGroupsFB(groups.value);
   };
 
   const toggleEditGroups = () => {
@@ -89,7 +89,6 @@ const useBudget = () => {
       transactions: [],
     };
     categories.push(data);
-    // updateGroupsFB(groups.value);
   };
 
   return {

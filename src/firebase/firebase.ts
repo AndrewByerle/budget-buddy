@@ -6,24 +6,10 @@ import {
   browserSessionPersistence,
   browserLocalPersistence,
   onAuthStateChanged,
-  type User,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import {
-  addDoc,
-  collection,
-  getDocFromCache,
-  getDocs,
-  getFirestore,
-} from "firebase/firestore";
-import {
-  doc,
-  setDoc,
-  updateDoc,
-  onSnapshot,
-  getDoc,
-  query,
-} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { doc, setDoc, updateDoc, onSnapshot, query } from "firebase/firestore";
 
 import type { Ref } from "vue";
 import { computed, ref } from "@vue/reactivity";
@@ -100,10 +86,14 @@ const useFirebase = () => {
     }
   };
 
-  const getData = async (groups: Ref<Group[]>) => {
+  const getData = async (
+    groups: Ref<Group[]>,
+    monthlyAllowance: Ref<number>
+  ) => {
     const uid = await getUid();
     onSnapshot(doc(db, "users", uid), (doc) => {
       groups.value = doc.data()?.groups;
+      monthlyAllowance.value = doc.data()?.monthlyAllowance;
     });
   };
 
