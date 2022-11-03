@@ -28,9 +28,6 @@ import {
 import type { Ref } from "vue";
 import { computed, ref } from "@vue/reactivity";
 export const getFirebaseClient = () => {
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
   const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
     authDomain: import.meta.env.VITE_AUTH_DOMAIN,
@@ -40,7 +37,6 @@ export const getFirebaseClient = () => {
     appId: import.meta.env.VITE_APP_ID,
   };
 
-  // Initialize Firebase
   initializeApp(firebaseConfig);
   setPersistence(getAuth(), browserSessionPersistence);
 };
@@ -106,10 +102,6 @@ const useFirebase = () => {
 
   const getData = async (groups: Ref<Group[]>) => {
     const uid = await getUid();
-    // const docSnapshot = await getDoc(doc(db, "users", uid));
-    // return {
-    //   ...docSnapshot?.data(),
-    // };
     onSnapshot(doc(db, "users", uid), (doc) => {
       groups.value = doc.data()?.groups;
     });

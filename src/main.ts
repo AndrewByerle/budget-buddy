@@ -19,9 +19,6 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import App from "./App.vue";
 import router from "./router";
-// import { getFirebaseClient } from "./firebase/firebase";
-
-// getFirebaseClient();
 
 const app = createApp(App).component("font-awesome-icon", FontAwesomeIcon);
 
