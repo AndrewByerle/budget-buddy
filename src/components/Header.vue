@@ -18,8 +18,9 @@ const getMonthName = (monthNumber: number) => {
 
 watch(selectedMonth, () => {
   console.log(selectedMonth.value);
-  selectedMonth.value !== null ??
-    (month.value = getMonthName(selectedMonth.value.month));
+  if (selectedMonth.value !== null) {
+    month.value = getMonthName(selectedMonth.value.month);
+  }
 });
 </script>
 
