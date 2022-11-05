@@ -1,26 +1,17 @@
 <script setup lang="ts">
 import { useAllowance } from "@/composables/allowance";
-import { ref, watch } from "vue";
+import { useBudget } from "@/composables/budget";
 import ProfileCard from "./profile/ProfileCard.vue";
 import ProfileIcon from "./profile/ProfileIcon.vue";
 
-const selectedMonth = ref();
-const month = ref(new Date().toLocaleString("en-US", { month: "long" }));
 const { remaining } = useAllowance();
+const { currentDate } = useBudget();
 
 const getMonthName = (monthNumber: number) => {
   const date = new Date();
   date.setMonth(monthNumber);
-
   return date.toLocaleString("en-US", { month: "long" });
 };
-
-watch(selectedMonth, () => {
-  console.log(selectedMonth.value);
-  if (selectedMonth.value !== null) {
-    month.value = getMonthName(selectedMonth.value.month);
-  }
-});
 </script>
 
 <template>
@@ -28,9 +19,9 @@ watch(selectedMonth, () => {
   <ProfileIcon />
   <div class="header">
     <div class="month">
-      <h1>{{ month }}</h1>
+      <h1>{{ getMonthName(currentDate.month) }}</h1>
       <div class="monthPicker">
-        <Datepicker v-model="selectedMonth" monthPicker />
+        <Datepicker v-model="currentDate" monthPicker />
       </div>
     </div>
     <div class="monthly-allowance">

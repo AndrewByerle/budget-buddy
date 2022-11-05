@@ -2,7 +2,7 @@
 import LabelRow from "../category/LabelRow.vue";
 import Category from "../category/Category.vue";
 import type { Group } from "@/definitions/budgetDefs";
-import { useBudget } from "@/composables/overview";
+import { useBudget } from "@/composables/budget";
 
 defineProps<{
   group: Group;

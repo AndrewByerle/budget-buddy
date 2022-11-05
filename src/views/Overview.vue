@@ -3,14 +3,9 @@ import Header1 from "../components/Header.vue";
 import BudgetGroup from "@/components/groups/BudgetGroup.vue";
 import EditButton from "../components/edit/EditButton.vue";
 import { onMounted } from "vue";
-import { useBudget } from "@/composables/overview";
+import { useBudget } from "@/composables/budget";
 
 onMounted(() => {
-  console.log(
-    (new Date().getMonth() + 1).toString() +
-      "/" +
-      new Date().getFullYear().toString()
-  );
   fetchData();
 });
 

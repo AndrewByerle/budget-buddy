@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useBudget } from "@/composables/overview";
+import { useBudget } from "@/composables/budget";
 import useTransactions from "@/composables/transactions";
 
 const { groups } = useBudget();

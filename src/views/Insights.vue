@@ -7,7 +7,7 @@
 import { DoughnutChart } from "vue-chart-3";
 import { Chart, registerables } from "chart.js";
 import { onMounted, ref } from "vue";
-import { useBudget } from "@/composables/overview";
+import { useBudget } from "@/composables/budget";
 
 const { groups, fetchData } = useBudget();
 
