@@ -29,7 +29,7 @@ const isEditActive = ref(false);
       </div>
     </div>
     <div class="item">
-      <p>${{ category.expense }}</p>
+      <p>${{ category.expense.toFixed(2) }}</p>
     </div>
   </div>
 </template>
