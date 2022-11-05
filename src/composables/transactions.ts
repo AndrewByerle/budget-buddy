@@ -1,7 +1,7 @@
 import type { Transaction } from "@/definitions/budgetDefs";
 import { removeItem } from "@/utils/remove";
 import { computed, ref, watch } from "vue";
-import { useBudget } from "./overview";
+import { useBudget } from "./budget";
 
 const { groups } = useBudget();
 

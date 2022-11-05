@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useBudget } from "@/composables/overview";
+import { useBudget } from "@/composables/budget";
 import type { Group } from "@/definitions/budgetDefs";
 import { ref } from "vue";
 import CategoryTable from "../category/CategoryTable.vue";

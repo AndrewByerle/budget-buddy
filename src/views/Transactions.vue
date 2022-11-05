@@ -6,7 +6,7 @@ import { createId } from "@/utils/uid";
 import TransactionCard from "../components/transactions/TransactionCard.vue";
 import EditButton from "../components/edit/EditButton.vue";
 import { computed, onMounted } from "vue";
-import { useBudget } from "@/composables/overview";
+import { useBudget } from "@/composables/budget";
 
 const {
   processTransaction,

@@ -8,7 +8,11 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import {
+  collection,
+  CollectionReference,
+  getFirestore,
+} from "firebase/firestore";
 import { doc, setDoc, updateDoc, onSnapshot, query } from "firebase/firestore";
 
 import type { Ref } from "vue";
@@ -55,30 +59,36 @@ const getUid = async () => {
 };
 
 const db = getFirestore();
+const monthsCollection = collection(db, "users", await getUid(), "months");
 
 const useFirebase = () => {
   const createUserFB = (data: Object, id: string) => {
+    const date = new Date();
+    const monthDate = `${date.getMonth() + 1}-${date.getFullYear()}`;
     setDoc(doc(db, "users", id), {
       ...data,
-      groups: [],
+    });
+    setDoc(doc(db, "users", id, "months", monthDate), {
       monthlyAllowance: 0,
+      groups: [],
     });
   };
 
-  const updateGroupsFB = async (groups: Group[]) => {
+  const updateGroupsFB = async (groups: Group[], monthDate: string) => {
     try {
-      const uid = await getUid();
-      await updateDoc(doc(db, "users", uid), {
+      await updateDoc(doc(monthsCollection, monthDate), {
         groups: groups,
       });
     } catch (e) {
       console.log(e);
     }
   };
-  const updateMonthlyAllowance = async (monthlyAllowance: number) => {
+  const updateMonthlyAllowance = async (
+    monthlyAllowance: number,
+    monthDate: string
+  ) => {
     try {
-      const uid = await getUid();
-      await updateDoc(doc(db, "users", uid), {
+      await updateDoc(doc(monthsCollection, monthDate), {
         monthlyAllowance: monthlyAllowance,
       });
     } catch (e) {
@@ -86,14 +96,22 @@ const useFirebase = () => {
     }
   };
 
-  const getData = async (
+  const getDataFB = async (
     groups: Ref<Group[]>,
-    monthlyAllowance: Ref<number>
+    monthlyAllowance: Ref<number>,
+    monthDate: string
   ) => {
-    const uid = await getUid();
-    onSnapshot(doc(db, "users", uid), (doc) => {
-      groups.value = doc.data()?.groups;
-      monthlyAllowance.value = doc.data()?.monthlyAllowance;
+    const docRef = doc(monthsCollection, monthDate);
+    onSnapshot(doc(monthsCollection, monthDate), (doc) => {
+      if (doc.exists()) {
+        groups.value = doc.data()?.groups;
+        monthlyAllowance.value = doc.data()?.monthlyAllowance;
+      } else {
+        setDoc(docRef, {
+          monthlyAllowance: monthlyAllowance.value,
+          groups: [],
+        });
+      }
     });
   };
 
@@ -101,7 +119,7 @@ const useFirebase = () => {
     createUserFB,
     updateGroupsFB,
     updateMonthlyAllowance,
-    getData,
+    getDataFB,
     getCurrentUser,
     isLoggedIn,
   };
