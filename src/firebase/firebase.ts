@@ -8,7 +8,11 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { collection, getFirestore } from "firebase/firestore";
+import {
+  collection,
+  CollectionReference,
+  getFirestore,
+} from "firebase/firestore";
 import { doc, setDoc, updateDoc, onSnapshot, query } from "firebase/firestore";
 
 import type { Ref } from "vue";
@@ -55,14 +59,12 @@ const getUid = async () => {
 };
 
 const db = getFirestore();
-
 const monthsCollection = collection(db, "users", await getUid(), "months");
 
 const useFirebase = () => {
   const createUserFB = (data: Object, id: string) => {
     const date = new Date();
     const monthDate = `${date.getMonth() + 1}-${date.getFullYear()}`;
-
     setDoc(doc(db, "users", id), {
       ...data,
     });
@@ -86,7 +88,6 @@ const useFirebase = () => {
     monthDate: string
   ) => {
     try {
-      const uid = await getUid();
       await updateDoc(doc(monthsCollection, monthDate), {
         monthlyAllowance: monthlyAllowance,
       });
@@ -100,9 +101,17 @@ const useFirebase = () => {
     monthlyAllowance: Ref<number>,
     monthDate: string
   ) => {
+    const docRef = doc(monthsCollection, monthDate);
     onSnapshot(doc(monthsCollection, monthDate), (doc) => {
-      groups.value = doc.data()?.groups;
-      monthlyAllowance.value = doc.data()?.monthlyAllowance;
+      if (doc.exists()) {
+        groups.value = doc.data()?.groups;
+        monthlyAllowance.value = doc.data()?.monthlyAllowance;
+      } else {
+        setDoc(docRef, {
+          monthlyAllowance: monthlyAllowance.value,
+          groups: [],
+        });
+      }
     });
   };
 

@@ -1,17 +1,23 @@
 <script setup lang="ts">
 import { useAllowance } from "@/composables/allowance";
 import { useBudget } from "@/composables/budget";
+import useFirebase from "@/firebase/firebase";
+import { watch } from "vue";
 import ProfileCard from "./profile/ProfileCard.vue";
 import ProfileIcon from "./profile/ProfileIcon.vue";
 
 const { remaining } = useAllowance();
-const { currentDate } = useBudget();
+const { currentDate, fetchData } = useBudget();
 
 const getMonthName = (monthNumber: number) => {
   const date = new Date();
   date.setMonth(monthNumber);
   return date.toLocaleString("en-US", { month: "long" });
 };
+
+watch(currentDate, () => {
+  fetchData();
+});
 </script>
 
 <template>
