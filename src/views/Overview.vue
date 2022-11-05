@@ -6,6 +6,11 @@ import { onMounted } from "vue";
 import { useBudget } from "@/composables/overview";
 
 onMounted(() => {
+  console.log(
+    (new Date().getMonth() + 1).toString() +
+      "/" +
+      new Date().getFullYear().toString()
+  );
   fetchData();
 });
 

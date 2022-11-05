@@ -12,45 +12,45 @@ const groups = ref<Group[]>([]);
 
 const isEditGroupsActive = ref(false);
 
-watch(groups, () => {
-  remaining.value = parseFloat(
-    (
-      monthlyAllowance.value -
-      groups.value.reduce((acc, group) => {
-        group.categories.forEach((category) => {
-          let transactionSum = 0;
-          category.transactions.forEach((transaction) => {
-            transactionSum += transaction.amount;
-          });
-          category.expense = transactionSum;
-          acc += category.expense;
-        });
-        return acc;
-      }, 0)
-    ).toFixed(2)
-  );
-});
+// watch(groups, () => {
+//   remaining.value = parseFloat(
+//     (
+//       monthlyAllowance.value -
+//       groups.value.reduce((acc, group) => {
+//         group.categories.forEach((category) => {
+//           let transactionSum = 0;
+//           category.transactions.forEach((transaction) => {
+//             transactionSum += transaction.amount;
+//           });
+//           category.expense = transactionSum;
+//           acc += category.expense;
+//         });
+//         return acc;
+//       }, 0)
+//     ).toFixed(2)
+//   );
+// });
 
-watch(
-  groups,
-  () => {
-    updateGroupsFB(groups.value);
-  },
-  { deep: true }
-);
+// watch(
+//   groups,
+//   () => {
+//     updateGroupsFB(groups.value);
+//   },
+//   { deep: true }
+// );
 
-watch(monthlyAllowance, () => {
-  remaining.value =
-    monthlyAllowance.value -
-    groups.value.reduce((acc, group) => {
-      group.categories.forEach((category) => {
-        acc += category.expense;
-      });
-      return acc;
-    }, 0);
-  // firebase
-  updateMonthlyAllowance(monthlyAllowance.value);
-});
+// watch(monthlyAllowance, () => {
+//   remaining.value =
+//     monthlyAllowance.value -
+//     groups.value.reduce((acc, group) => {
+//       group.categories.forEach((category) => {
+//         acc += category.expense;
+//       });
+//       return acc;
+//     }, 0);
+//   // firebase
+//   updateMonthlyAllowance(monthlyAllowance.value);
+// });
 
 const useBudget = () => {
   const fetchData = async () => {

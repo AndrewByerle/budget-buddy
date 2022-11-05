@@ -58,7 +58,12 @@ const db = getFirestore();
 
 const useFirebase = () => {
   const createUserFB = (data: Object, id: string) => {
-    setDoc(doc(db, "users", id), {
+    const monthDate: string =
+      (new Date().getMonth() + 1).toString() +
+      "/" +
+      new Date().getFullYear().toString();
+
+    setDoc(doc(db, "users", id, "months", monthDate), {
       ...data,
       groups: [],
       monthlyAllowance: 0,

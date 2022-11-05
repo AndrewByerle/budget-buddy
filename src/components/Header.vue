@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useAllowance } from "@/composables/allowance";
-import { computed } from "@vue/reactivity";
 import { ref, watch } from "vue";
 import ProfileCard from "./profile/ProfileCard.vue";
 import ProfileIcon from "./profile/ProfileIcon.vue";
