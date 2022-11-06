@@ -24,7 +24,6 @@ watch(currentDate, () => {
   <ProfileCard />
   <ProfileIcon />
   <div class="header">
-    <font-awesome-icon icon="fa-solid fa-triangle" />
     <div class="month">
       <h1>
         {{ getMonthName(currentDate.month) }}
@@ -35,7 +34,7 @@ watch(currentDate, () => {
       </div>
     </div>
     <div class="monthly-allowance">
-      <p>${{ remaining }}</p>
+      <p>${{ remaining.toFixed(2) }}</p>
     </div>
   </div>
 </template>
