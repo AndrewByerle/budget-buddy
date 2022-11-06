@@ -27,7 +27,7 @@ watch(currentDate, () => {
     <div class="month">
       <h1 class="row">
         {{ getMonthName(currentDate.month) }}
-        <font-awesome-icon icon="fa-solid fa-angle-down" class="angle-icon" />
+        <font-awesome-icon icon="fa-solid fa-angle-down" class="agl" />
       </h1>
       <div class="monthPicker">
         <Datepicker v-model="currentDate" monthPicker />
@@ -40,7 +40,7 @@ watch(currentDate, () => {
 </template>
 
 <style scoped>
-.angle-icon {
+.agl {
   transform: rotate(180deg);
   color: rgb(152, 160, 155);
   scale: 70%;
