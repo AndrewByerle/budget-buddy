@@ -25,7 +25,7 @@ watch(currentDate, () => {
   <ProfileIcon />
   <div class="header">
     <div class="month">
-      <h1>
+      <h1 class="row">
         {{ getMonthName(currentDate.month) }}
         <font-awesome-icon icon="fa-solid fa-angle-down" class="angle-icon" />
       </h1>
@@ -61,7 +61,6 @@ watch(currentDate, () => {
 .header {
   display: flex;
   justify-content: space-around;
-  gap: 30%;
   color: darkslategray;
   height: 100%;
   margin: 3%;
