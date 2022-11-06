@@ -30,7 +30,11 @@ watch(currentDate, () => {
         <font-awesome-icon icon="fa-solid fa-angle-down" class="agl" />
       </h1>
       <div class="monthPicker">
-        <Datepicker v-model="currentDate" monthPicker />
+        <Datepicker
+          v-model="currentDate"
+          monthPicker
+          :enableTimePicker="false"
+        />
       </div>
     </div>
     <div class="monthly-allowance">
@@ -45,6 +49,8 @@ watch(currentDate, () => {
   color: rgb(152, 160, 155);
   scale: 70%;
   left: -10px;
+  margin-top: 2%;
+  margin-left: -2%;
 }
 .month {
   position: relative;
@@ -55,8 +61,9 @@ watch(currentDate, () => {
   opacity: 0;
   position: absolute;
   top: 15px;
+  height: 50%;
+  width: 105%;
   z-index: 0.1;
-  /* display: transparent; */
 }
 .header {
   display: flex;
@@ -64,6 +71,7 @@ watch(currentDate, () => {
   color: darkslategray;
   height: 100%;
   margin: 3%;
+  flex-direction: row;
 }
 .monthly-allowance {
   display: flex;
