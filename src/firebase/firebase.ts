@@ -59,7 +59,10 @@ const getUid = async () => {
 };
 
 const db = getFirestore();
-const monthsCollection = collection(db, "users", await getUid(), "months");
+
+const monthsCollection = async () => {
+  return collection(db, "users", await getUid(), "months");
+};
 
 const useFirebase = () => {
   const createUserFB = (data: Object, id: string) => {
@@ -76,7 +79,7 @@ const useFirebase = () => {
 
   const updateGroupsFB = async (groups: Group[], monthDate: string) => {
     try {
-      await updateDoc(doc(monthsCollection, monthDate), {
+      await updateDoc(doc(await monthsCollection(), monthDate), {
         groups: groups,
       });
     } catch (e) {
@@ -88,7 +91,7 @@ const useFirebase = () => {
     monthDate: string
   ) => {
     try {
-      await updateDoc(doc(monthsCollection, monthDate), {
+      await updateDoc(doc(await monthsCollection(), monthDate), {
         monthlyAllowance: monthlyAllowance,
       });
     } catch (e) {
@@ -101,8 +104,8 @@ const useFirebase = () => {
     monthlyAllowance: Ref<number>,
     monthDate: string
   ) => {
-    const docRef = doc(monthsCollection, monthDate);
-    onSnapshot(doc(monthsCollection, monthDate), (doc) => {
+    const docRef = doc(await monthsCollection(), monthDate);
+    onSnapshot(doc(await monthsCollection(), monthDate), (doc) => {
       if (doc.exists()) {
         groups.value = doc.data()?.groups;
         monthlyAllowance.value = doc.data()?.monthlyAllowance;

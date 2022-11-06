@@ -13,6 +13,8 @@ import {
   faCirclePlus,
   faChartPie,
   faUser,
+  faTriangleCircleSquare,
+  faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";

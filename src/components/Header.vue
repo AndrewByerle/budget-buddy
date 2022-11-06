@@ -24,8 +24,12 @@ watch(currentDate, () => {
   <ProfileCard />
   <ProfileIcon />
   <div class="header">
+    <font-awesome-icon icon="fa-solid fa-triangle" />
     <div class="month">
-      <h1>{{ getMonthName(currentDate.month) }}</h1>
+      <h1>
+        {{ getMonthName(currentDate.month) }}
+        <font-awesome-icon icon="fa-solid fa-angle-down" class="angle-icon" />
+      </h1>
       <div class="monthPicker">
         <Datepicker v-model="currentDate" monthPicker />
       </div>
@@ -37,6 +41,12 @@ watch(currentDate, () => {
 </template>
 
 <style scoped>
+.angle-icon {
+  transform: rotate(180deg);
+  color: rgb(152, 160, 155);
+  scale: 70%;
+  left: -10px;
+}
 .month {
   position: relative;
 }
@@ -46,8 +56,8 @@ watch(currentDate, () => {
   opacity: 0;
   position: absolute;
   top: 15px;
-  z-index: 1;
-  display: transparent;
+  z-index: 0.1;
+  /* display: transparent; */
 }
 .header {
   display: flex;
